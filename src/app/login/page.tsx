@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 import { useAuth } from "@/context/AuthContext";
 import { supabase } from "@/lib/supabase";
 import { Flame, Eye, EyeOff, AlertCircle, Check } from "lucide-react";
@@ -118,8 +119,13 @@ function LoginForm() {
       <div className="relative w-full max-w-md bg-[#FAF6EB] border border-[#E6D7B8] rounded-2xl p-8 shadow-xl shadow-[#2C1810]/5">
         {/* Brand header */}
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#8B1A1A] text-[#F5EDD8] mb-3">
-            <Flame className="w-6 h-6" />
+          <div className="inline-flex items-center justify-center w-12 h-12 rounded-full overflow-hidden bg-white shadow-md border border-[#E6D7B8] mb-3 relative shrink-0">
+            <Image
+              src="/logo.png"
+              alt="Vrajaspice"
+              fill
+              className="object-contain"
+            />
           </div>
           <h1 className="font-serif text-3xl font-bold text-[#2C1810]">Vrajaspice</h1>
           <p className="text-[#8B4513] text-xs font-semibold uppercase tracking-[0.2em] mt-1">Spice With Soul</p>
@@ -211,7 +217,7 @@ function LoginForm() {
                       type="tel"
                       value={whatsapp}
                       onChange={(e) => setWhatsapp(e.target.value)}
-                      placeholder="e.g. +91 9999999999"
+                      placeholder="e.g. +91 9121552086"
                       className="w-full px-4 py-3 bg-[#F5EDD8]/40 border border-[#E6D7B8] text-[#2C1810] placeholder-[#2C1810]/30 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A] transition-all"
                     />
                   </div>

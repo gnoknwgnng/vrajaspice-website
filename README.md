@@ -127,7 +127,7 @@ Default credentials (change before launch!):
 
 ## 📞 Support
 
-WhatsApp: +91 99999 99999  
+WhatsApp: +91 91215 52086  
 Email: hello@vrajaspice.in
 
 ---

@@ -41,7 +41,7 @@ export default function FinalCTA() {
             Shop All Products →
           </Link>
           <a
-            href="https://wa.me/919999999999?text=Hi%20Vrajaspice%2C%20I%27d%20like%20to%20place%20an%20order!"
+            href="https://wa.me/919121552086?text=Hi%20Vrajaspice%2C%20I%27d%20like%20to%20place%20an%20order!"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 bg-[#25D366] text-white px-10 py-5 rounded-2xl font-bold text-lg hover:bg-[#20BD5D] transition-all duration-300 hover:-translate-y-0.5"

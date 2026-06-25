@@ -75,13 +75,13 @@ export default function Footer() {
             {/* Contact */}
             <div className="space-y-2 mb-6">
               <a
-                href="https://wa.me/919999999999"
+                href="https://wa.me/919121552086"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-[#C4A88A] hover:text-[#25D366] transition-colors"
               >
                 <Phone className="w-4 h-4" />
-                +91 99999 99999
+                +91 91215 52086
               </a>
               <a
                 href="mailto:hello@vrajaspice.in"

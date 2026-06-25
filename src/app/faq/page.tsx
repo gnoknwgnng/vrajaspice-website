@@ -198,7 +198,7 @@ export default function FaqPage() {
             Our team is happy to help. Chat with us on WhatsApp for a quick and friendly response.
           </p>
           <a
-            href="https://wa.me/919999999999?text=Hi%20Vrajaspice%2C%20I%20have%20a%20question!"
+            href="https://wa.me/919121552086?text=Hi%20Vrajaspice%2C%20I%20have%20a%20question!"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 bg-[#25D366] text-white font-sans font-semibold px-8 py-4 rounded-full hover:bg-[#1ebe5d] transition-colors duration-300 shadow-lg hover:shadow-xl"

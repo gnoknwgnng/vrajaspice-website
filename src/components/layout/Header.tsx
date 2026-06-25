@@ -61,7 +61,7 @@ export default function Header() {
                   }}
                 />
                 <div className="w-full h-full flex items-center justify-center bg-[#8B1A1A] rounded-full text-[#F5EDD8] font-serif font-bold text-xl absolute inset-0 opacity-0 peer-error:opacity-100">
-                  S
+                  V
                 </div>
               </div>
               <div>
@@ -92,7 +92,7 @@ export default function Header() {
             <div className="flex items-center gap-3 md:gap-4">
               {/* WhatsApp */}
               <a
-                href="https://wa.me/919999999999?text=Hi%20Vrajaspice%2C%20I%27d%20like%20to%20know%20more%20about%20your%20products!"
+                href="https://wa.me/919121552086?text=Hi%20Vrajaspice%2C%20I%27d%20like%20to%20know%20more%20about%20your%20products!"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hidden md:flex items-center gap-1.5 bg-[#25D366] text-white text-xs font-semibold px-3 py-2 rounded-full hover:bg-[#20BD5D] transition-colors duration-200"
@@ -174,7 +174,7 @@ export default function Header() {
               {user ? "My Account" : "Sign In / Register"}
             </Link>
             <a
-              href="https://wa.me/919999999999"
+              href="https://wa.me/919121552086"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-4 py-3 text-[#25D366] font-semibold"

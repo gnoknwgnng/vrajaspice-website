@@ -616,7 +616,7 @@ export default function AccountPage() {
                       type="tel"
                       value={mobile}
                       onChange={(e) => setMobile(e.target.value)}
-                      placeholder="e.g. 9999999999"
+                      placeholder="e.g. 9121552086"
                       className="w-full px-4 py-2.5 bg-[#F5EDD8]/20 border border-[#E6D7B8] text-[#2C1810] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A]"
                     />
                   </div>
@@ -626,7 +626,7 @@ export default function AccountPage() {
                       type="tel"
                       value={whatsapp}
                       onChange={(e) => setWhatsapp(e.target.value)}
-                      placeholder="e.g. 9999999999"
+                      placeholder="e.g. 9121552086"
                       className="w-full px-4 py-2.5 bg-[#F5EDD8]/20 border border-[#E6D7B8] text-[#2C1810] rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A]"
                     />
                   </div>

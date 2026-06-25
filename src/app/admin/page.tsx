@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { Flame, Eye, EyeOff, AlertCircle } from 'lucide-react'
 
 // TODO: Replace hardcoded auth with Supabase auth
@@ -63,8 +64,13 @@ export default function AdminLoginPage() {
       <div className="relative w-full max-w-md">
         {/* Brand header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-[#D4A017] to-[#8B1A1A] shadow-lg shadow-[#D4A017]/20 mb-4">
-            <Flame className="w-7 h-7 text-[#F5EDD8]" />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full overflow-hidden bg-white shadow-lg shadow-[#D4A017]/20 mb-4 relative shrink-0">
+            <Image
+              src="/logo.png"
+              alt="Vrajaspice"
+              fill
+              className="object-contain"
+            />
           </div>
           <h1 className="text-[#F5EDD8] font-serif text-3xl font-bold tracking-tight">Vrajaspice</h1>
           <p className="text-[#D4A017]/80 text-xs font-sans uppercase tracking-[0.2em] mt-1">Admin Portal</p>

@@ -4,7 +4,7 @@ import ContactForm from "./ContactForm";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Get in touch with Vrajaspice. Reach us via email at hello@vrajaspice.in or WhatsApp +91 99999 99999 for orders, queries, and feedback.",
+    "Get in touch with Vrajaspice. Reach us via email at hello@vrajaspice.in or WhatsApp +91 91215 52086 for orders, queries, and feedback.",
 };
 
 function BrushStroke({ className = "" }: { className?: string }) {
@@ -93,7 +93,7 @@ export default function ContactPage() {
 
               {/* WhatsApp */}
               <a
-                href="https://wa.me/919999999999"
+                href="https://wa.me/919121552086"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-start gap-4 p-5 rounded-xl bg-[#25D366]/10 border border-[#25D366]/30 hover:bg-[#25D366]/15 hover:border-[#25D366]/50 transition-all duration-300 mb-4 group"
@@ -106,14 +106,14 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="font-sans text-xs font-semibold text-[#25D366] uppercase tracking-wider mb-1">WhatsApp</p>
-                  <p className="font-sans font-semibold text-[#2C1810] text-base">+91 99999 99999</p>
+                  <p className="font-sans font-semibold text-[#2C1810] text-base">+91 91215 52086</p>
                   <p className="text-[#4A2A1A] text-sm">Quick responses, Mon–Sat</p>
                 </div>
               </a>
 
               {/* WhatsApp CTA Button */}
               <a
-                href="https://wa.me/919999999999?text=Hi%20Vrajaspice%2C%20I%20have%20a%20query!"
+                href="https://wa.me/919121552086?text=Hi%20Vrajaspice%2C%20I%20have%20a%20query!"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-3 w-full bg-[#25D366] text-white font-sans font-semibold px-6 py-4 rounded-xl hover:bg-[#1ebe5d] transition-colors duration-300 shadow-md hover:shadow-lg"

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import {
   LayoutDashboard,
   Package,
@@ -52,7 +53,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     return (
       <div className="min-h-screen bg-[#0F0603] flex items-center justify-center">
         <div className="flex items-center gap-3 text-[#D4A017]">
-          <Flame className="w-6 h-6 animate-pulse" />
+          <div className="w-8 h-8 rounded-full overflow-hidden bg-white flex items-center justify-center animate-pulse relative shrink-0">
+            <Image
+              src="/logo.png"
+              alt="Vrajaspice"
+              fill
+              className="object-contain"
+            />
+          </div>
           <span className="font-sans text-sm text-[#F5EDD8]/60">Loading…</span>
         </div>
       </div>
@@ -82,8 +90,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         {/* Logo */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-[#D4A017]/10">
           <Link href="/admin/dashboard" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#D4A017] to-[#8B1A1A] flex items-center justify-center shadow-lg group-hover:shadow-[#D4A017]/30 transition-shadow">
-              <Flame className="w-4 h-4 text-[#F5EDD8]" />
+            <div className="w-8 h-8 rounded-full overflow-hidden bg-white flex items-center justify-center shadow-lg group-hover:shadow-[#D4A017]/30 transition-shadow relative shrink-0">
+              <Image
+                src="/logo.png"
+                alt="Vrajaspice"
+                fill
+                className="object-contain"
+              />
             </div>
             <div>
               <p className="text-[#F5EDD8] font-serif text-base font-semibold leading-none">Vrajaspice</p>
@@ -152,8 +165,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#D4A017] to-[#8B1A1A] flex items-center justify-center">
-              <Flame className="w-3 h-3 text-[#F5EDD8]" />
+            <div className="w-6 h-6 rounded-full overflow-hidden bg-white flex items-center justify-center relative shrink-0">
+              <Image
+                src="/logo.png"
+                alt="Vrajaspice"
+                fill
+                className="object-contain"
+              />
             </div>
             <span className="text-[#F5EDD8] font-serif text-sm font-semibold">Vrajaspice Admin</span>
           </div>
