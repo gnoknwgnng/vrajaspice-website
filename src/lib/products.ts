@@ -425,3 +425,27 @@ export function getRelatedProducts(currentSlug: string, count = 4): Product[] {
 export function getDiscountPercent(selling: number, mrp: number): number {
   return Math.round(((mrp - selling) / mrp) * 100);
 }
+
+export function mapDbRowToProduct(row: any): Product {
+  return {
+    id: Number(row.id),
+    slug: row.slug,
+    name: row.name,
+    shortDescription: row.short_description || '',
+    description: row.description || '',
+    ingredients: row.ingredients || '',
+    weight: row.weight || '100g',
+    sellingPrice: Number(row.selling_price),
+    mrp: Number(row.mrp),
+    stockQuantity: Number(row.stock_quantity),
+    featured: !!row.featured,
+    badge: row.badge,
+    imageUrl: row.image_url || '/placeholder.png',
+    category: row.category || 'everyday',
+    benefits: row.benefits || [],
+    usageSuggestions: row.usage_suggestions || [],
+    faqs: row.faqs || [],
+    isActive: row.is_active !== undefined ? !!row.is_active : true,
+  };
+}
+

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Metadata } from "next";
-import { products as mockProducts, getFeaturedProducts, Product } from "@/lib/products";
+import { products as mockProducts, getFeaturedProducts, Product, mapDbRowToProduct } from "@/lib/products";
 import { supabase } from "@/lib/supabase";
 import ProductCard from "@/components/ui/ProductCard";
 import HeroSection from "@/components/home/HeroSection";
@@ -15,29 +15,7 @@ import FinalCTA from "@/components/home/FinalCTA";
 
 import FeaturedProductsGrid from "@/components/home/FeaturedProductsGrid";
 
-// Helper to map DB row to frontend Product type
-function mapDbRowToProduct(row: any): Product {
-  return {
-    id: Number(row.id),
-    slug: row.slug,
-    name: row.name,
-    shortDescription: row.short_description || '',
-    description: row.description || '',
-    ingredients: row.ingredients || '',
-    weight: row.weight || '100g',
-    sellingPrice: Number(row.selling_price),
-    mrp: Number(row.mrp),
-    stockQuantity: Number(row.stock_quantity),
-    featured: !!row.featured,
-    badge: row.badge,
-    imageUrl: row.image_url || '/placeholder.png',
-    category: row.category || 'everyday',
-    benefits: row.benefits || [],
-    usageSuggestions: row.usage_suggestions || [],
-    faqs: row.faqs || [],
-    isActive: row.is_active !== undefined ? !!row.is_active : true,
-  };
-}
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Vrajaspice — Premium No Onion No Garlic Spices | Spice With Soul",
