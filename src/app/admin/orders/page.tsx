@@ -121,8 +121,8 @@ export default function OrdersPage() {
           customers ( full_name ),
           order_items ( product_name, quantity )
         `)
-        // Only show orders that are fully paid OR are COD (not ghost awaiting_payment orders)
-        .or('payment_status.eq.paid,payment_method.eq.cod')
+        // Only show fully paid orders (filter out ghost awaiting_payment records)
+        .eq('payment_status', 'paid')
         .order('created_at', { ascending: false })
 
       if (error) {
