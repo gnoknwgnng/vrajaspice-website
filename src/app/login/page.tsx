@@ -23,6 +23,11 @@ function LoginForm() {
   const [error, setError] = useState("");
   const [registeredSuccess, setRegisteredSuccess] = useState(false);
 
+  // WhatsApp OTP states
+  const [showOtpScreen, setShowOtpScreen] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [otpLoading, setOtpLoading] = useState(false);
+
   const redirectTo = searchParams.get("redirect") || "/account";
 
   useEffect(() => {
@@ -68,26 +73,75 @@ function LoginForm() {
     }
   };
 
+  // Triggers sending OTP via WhatsApp for new registrations
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
+      if (!whatsapp) {
+        throw new Error("WhatsApp number is required to receive registration OTP.");
+      }
+
+      const response = await fetch("/api/auth/send-register-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ whatsappNumber: whatsapp }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send OTP. Please check your number.");
+      }
+
+      toast.success("OTP sent successfully via WhatsApp!");
+      setShowOtpScreen(true);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Failed to create account. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Verifies the OTP and completes Supabase sign up
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setOtpLoading(true);
+
+    try {
+      // 1. Verify OTP with our backend
+      const verifyRes = await fetch("/api/auth/verify-register-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ otp, whatsappNumber: whatsapp }),
+      });
+
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok) {
+        throw new Error(verifyData.error || "Failed to verify OTP.");
+      }
+
+      // 2. Perform actual sign up in Supabase
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
         options: {
           data: {
             full_name: fullName,
-            whatsapp_number: whatsapp || null,
+            whatsapp_number: whatsapp,
           },
         },
       });
 
       if (signUpError) throw signUpError;
 
-      // Check if user needs to confirm email (or if they are auto-logged-in)
       const session = data?.session;
       if (session) {
         toast.success("Account created successfully!");
@@ -96,11 +150,35 @@ function LoginForm() {
         setRegisteredSuccess(true);
         toast.success("Registration successful! Check your email to confirm.");
       }
+      setShowOtpScreen(false);
     } catch (err: any) {
       console.error(err);
-      setError(err.message || "Failed to create account. Please try again.");
+      setError(err.message || "Failed to verify OTP or register user. Please try again.");
     } finally {
-      setLoading(false);
+      setOtpLoading(false);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    setError("");
+    setOtpLoading(true);
+    try {
+      const response = await fetch("/api/auth/send-register-otp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ whatsappNumber: whatsapp }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to resend OTP.");
+      }
+      toast.success("OTP resent successfully via WhatsApp!");
+    } catch (err: any) {
+      setError(err.message || "Failed to resend OTP.");
+    } finally {
+      setOtpLoading(false);
     }
   };
 
@@ -152,6 +230,68 @@ function LoginForm() {
             >
               Back to Login
             </button>
+          </div>
+        ) : showOtpScreen ? (
+          <div className="py-2">
+            <h2 className="font-serif text-xl font-bold text-[#2C1810] mb-2 text-center">Verify WhatsApp OTP</h2>
+            <p className="text-[#4A2A1A] text-sm leading-relaxed mb-6 text-center">
+              We have sent a 6-digit verification code via WhatsApp to <strong className="text-[#2C1810]">{whatsapp}</strong>.
+            </p>
+            
+            {error && (
+              <div className="flex items-center gap-2 bg-[#8B1A1A]/10 border border-[#8B1A1A]/20 rounded-xl px-4 py-3 mb-5">
+                <AlertCircle className="w-4 h-4 text-[#8B1A1A] shrink-0" />
+                <p className="text-[#8B1A1A] text-xs font-semibold">{error}</p>
+              </div>
+            )}
+
+            <form onSubmit={handleVerifyOtp} className="space-y-4">
+              <div>
+                <label className="block text-[#4A2A1A] text-xs font-semibold uppercase tracking-wider mb-2">
+                  Verification Code
+                </label>
+                <input
+                  type="text"
+                  required
+                  maxLength={6}
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
+                  placeholder="Enter 6-digit OTP"
+                  className="w-full px-4 py-3 bg-[#F5EDD8]/40 border border-[#E6D7B8] text-[#2C1810] placeholder-[#2C1810]/30 rounded-xl text-sm text-center tracking-[0.5em] font-bold focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A] transition-all"
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={otpLoading}
+                className="w-full py-3 bg-[#2C1810] hover:bg-[#8B1A1A] text-[#F5EDD8] font-semibold rounded-xl shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-4"
+              >
+                {otpLoading ? "Verifying..." : "Verify & Create Account"}
+              </button>
+            </form>
+
+            <div className="mt-6 flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={handleResendOtp}
+                disabled={otpLoading}
+                className="text-xs font-semibold text-[#8B1A1A] hover:underline text-center"
+              >
+                Resend OTP via WhatsApp
+              </button>
+              
+              <button
+                type="button"
+                onClick={() => {
+                  setShowOtpScreen(false);
+                  setError("");
+                }}
+                disabled={otpLoading}
+                className="text-xs font-semibold text-[#8B4513]/60 hover:text-[#8B4513] text-center"
+              >
+                Back to Registration
+              </button>
+            </div>
           </div>
         ) : (
           <>
@@ -211,10 +351,11 @@ function LoginForm() {
 
                   <div>
                     <label className="block text-[#4A2A1A] text-xs font-semibold uppercase tracking-wider mb-2">
-                      WhatsApp Number (Optional)
+                      WhatsApp Number
                     </label>
                     <input
                       type="tel"
+                      required
                       value={whatsapp}
                       onChange={(e) => setWhatsapp(e.target.value)}
                       placeholder="e.g. +91 9121552086"
