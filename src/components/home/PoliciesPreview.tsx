@@ -79,14 +79,21 @@ export default function PoliciesPreview() {
       if (index !== -1) {
         setOpen(index);
         
-        // Scroll to the policies section
-        const element = document.getElementById("store-policies");
-        if (element) {
-          // Add a short delay to ensure rendering/hydration matches
-          setTimeout(() => {
+        const idMap = ["privacy-policy", "terms-and-conditions", "shipping-policy", "refund-policy"];
+        const targetId = idMap[index];
+        
+        // Add a short delay to ensure rendering and hydration have finished
+        setTimeout(() => {
+          const element = document.getElementById(targetId);
+          if (element) {
             element.scrollIntoView({ behavior: "smooth", block: "start" });
-          }, 100);
-        }
+          } else {
+            const generalElement = document.getElementById("store-policies");
+            if (generalElement) {
+              generalElement.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }
+        }, 150);
       }
     };
 
@@ -117,45 +124,49 @@ export default function PoliciesPreview() {
 
         {/* Accordion */}
         <div className="space-y-3">
-          {policies.map((policy, i) => (
-            <div
-              key={i}
-              className={`rounded-xl border transition-all duration-200 overflow-hidden ${
-                open === i
-                  ? "border-[#8B1A1A]/30 shadow-[0_4px_20px_rgba(139,26,26,0.08)]"
-                  : "border-[#D4C4A0]"
-              } bg-[#F5EDD8]`}
-            >
-              <button
-                onClick={() => setOpen(open === i ? null : i)}
-                className="w-full flex items-center justify-between px-6 py-5 text-left gap-4"
+          {policies.map((policy, i) => {
+            const idMap = ["privacy-policy", "terms-and-conditions", "shipping-policy", "refund-policy"];
+            return (
+              <div
+                key={i}
+                id={idMap[i]}
+                className={`rounded-xl border transition-all duration-200 overflow-hidden ${
+                  open === i
+                    ? "border-[#8B1A1A]/30 shadow-[0_4px_20px_rgba(139,26,26,0.08)]"
+                    : "border-[#D4C4A0]"
+                } bg-[#F5EDD8] scroll-mt-24 sm:scroll-mt-28`}
               >
-                <span
-                  className={`font-serif font-bold text-sm md:text-base leading-snug ${
-                    open === i ? "text-[#8B1A1A]" : "text-[#2C1810]"
+                <button
+                  onClick={() => setOpen(open === i ? null : i)}
+                  className="w-full flex items-center justify-between px-6 py-5 text-left gap-4"
+                >
+                  <span
+                    className={`font-serif font-bold text-sm md:text-base leading-snug ${
+                      open === i ? "text-[#8B1A1A]" : "text-[#2C1810]"
+                    }`}
+                  >
+                    {policy.title}
+                  </span>
+                  <span className="flex-shrink-0 text-[#8B4513]">
+                    {open === i ? (
+                      <ChevronUp className="w-5 h-5" />
+                    ) : (
+                      <ChevronDown className="w-5 h-5" />
+                    )}
+                  </span>
+                </button>
+                <div
+                  className={`overflow-hidden transition-all duration-300 ${
+                    open === i ? "max-h-[500px] border-t border-[#EDE0C4] pt-4" : "max-h-0"
                   }`}
                 >
-                  {policy.title}
-                </span>
-                <span className="flex-shrink-0 text-[#8B4513]">
-                  {open === i ? (
-                    <ChevronUp className="w-5 h-5" />
-                  ) : (
-                    <ChevronDown className="w-5 h-5" />
-                  )}
-                </span>
-              </button>
-              <div
-                className={`overflow-hidden transition-all duration-300 ${
-                  open === i ? "max-h-[500px] border-t border-[#EDE0C4] pt-4" : "max-h-0"
-                }`}
-              >
-                <div className="px-6 pb-5 text-[#4A2A1A] leading-relaxed">
-                  {policy.content}
+                  <div className="px-6 pb-5 text-[#4A2A1A] leading-relaxed">
+                    {policy.content}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

@@ -163,6 +163,7 @@ export default function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
+                    scroll={false}
                     className="text-sm text-[#C4A88A] hover:text-[#E8721C] transition-colors"
                   >
                     {link.label}
