@@ -38,8 +38,8 @@ export default function OurStory() {
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3]">
               <Image
-                src="/hero.png"
-                alt="Vrajaspice story — traditional Indian spices"
+                src="/story.png"
+                alt="Vrajaspice story — mortar and pestle with traditional Indian spices"
                 fill
                 className="object-cover opacity-80"
               />
