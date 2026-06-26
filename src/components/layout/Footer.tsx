@@ -85,11 +85,11 @@ export default function Footer() {
                 +91 91215 52086
               </a>
               <a
-                href="mailto:hello@vrajaspice.in"
+                href="mailto:vrajaspice@gmail.com"
                 className="flex items-center gap-2 text-sm text-[#C4A88A] hover:text-[#E8721C] transition-colors"
               >
                 <Mail className="w-4 h-4" />
-                hello@vrajaspice.in
+                vrajaspice@gmail.com
               </a>
               <div className="flex items-center gap-2 text-sm text-[#C4A88A]">
                 <MapPin className="w-4 h-4 flex-shrink-0" />

@@ -4,7 +4,7 @@ import ContactForm from "./ContactForm";
 export const metadata: Metadata = {
   title: "Contact Us",
   description:
-    "Get in touch with Vrajaspice. Reach us via email at hello@vrajaspice.in or WhatsApp +91 91215 52086 for orders, queries, and feedback.",
+    "Get in touch with Vrajaspice. Reach us via email at vrajaspice@gmail.com or WhatsApp +91 91215 52086 for orders, queries, and feedback.",
 };
 
 function BrushStroke({ className = "" }: { className?: string }) {
@@ -76,7 +76,7 @@ export default function ContactPage() {
 
               {/* Email */}
               <a
-                href="mailto:hello@vrajaspice.in"
+                href="mailto:vrajaspice@gmail.com"
                 className="flex items-start gap-4 p-5 rounded-xl card-warm hover:shadow-md transition-all duration-300 mb-4 group"
               >
                 <div className="w-11 h-11 rounded-lg bg-[#8B1A1A] flex items-center justify-center flex-shrink-0 group-hover:bg-[#6B1212] transition-colors">
@@ -86,7 +86,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="font-sans text-xs font-semibold text-[#8B4513] uppercase tracking-wider mb-1">Email Us</p>
-                  <p className="font-sans font-semibold text-[#2C1810] text-base">hello@vrajaspice.in</p>
+                  <p className="font-sans font-semibold text-[#2C1810] text-base">vrajaspice@gmail.com</p>
                   <p className="text-[#4A2A1A] text-sm">We reply within 24 hours</p>
                 </div>
               </a>
