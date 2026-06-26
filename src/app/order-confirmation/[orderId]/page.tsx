@@ -170,10 +170,10 @@ export default function OrderConfirmationPage({
     fetchOrder();
   }, [orderId]);
 
-  // Estimated delivery date (3-5 business days from now)
+  // Estimated delivery date (7-10 business days from now)
   const estimatedDelivery = (() => {
     const d = new Date();
-    d.setDate(d.getDate() + 5);
+    d.setDate(d.getDate() + 10);
     return d.toLocaleDateString("en-IN", {
       weekday: "long",
       day: "numeric",
@@ -281,7 +281,7 @@ export default function OrderConfirmationPage({
               {estimatedDelivery}
             </p>
             <p className="text-xs mt-1" style={{ color: "#8B4513" }}>
-              3–5 business days · Shipped via trusted courier partners
+              7–10 business days · Shipped via trusted courier partners
             </p>
           </div>
         </div>
@@ -444,13 +444,13 @@ export default function OrderConfirmationPage({
           <p className="text-xs" style={{ color: "#8B4513" }}>
             Reach us on WhatsApp at{" "}
             <a
-              href="https://wa.me/919876543210"
+              href="https://wa.me/919121552086"
               target="_blank"
               rel="noopener noreferrer"
               className="font-semibold underline"
               style={{ color: "#8B1A1A" }}
             >
-              +91 98765 43210
+              +91 91215 52086
             </a>{" "}
             or email{" "}
             <a
