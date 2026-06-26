@@ -1,19 +1,21 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AdminLayout from '@/components/admin/AdminLayout'
 import { ShoppingCart, ChevronDown } from 'lucide-react'
+import { supabase } from '@/lib/supabase'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 type OrderStatus = 'Pending' | 'Confirmed' | 'Packed' | 'Shipped' | 'Delivered' | 'Cancelled'
-type PaymentMethod = 'COD' | 'Online' | 'UPI'
 
 interface Order {
   id: string
+  orderNumber: string
   customer: string
   items: string
   amount: number
-  payment: PaymentMethod
+  payment: string
+  paymentStatus: string
   status: OrderStatus
   date: string
 }
@@ -32,6 +34,19 @@ const ALL_STATUSES: OrderStatus[] = ['Pending', 'Confirmed', 'Packed', 'Shipped'
 const FILTER_TABS = ['All', ...ALL_STATUSES] as const
 type FilterTab = typeof FILTER_TABS[number]
 
+// Map DB order_status strings to our OrderStatus type
+function mapOrderStatus(status: string): OrderStatus {
+  const map: Record<string, OrderStatus> = {
+    pending: 'Pending',
+    confirmed: 'Confirmed',
+    packed: 'Packed',
+    shipped: 'Shipped',
+    delivered: 'Delivered',
+    cancelled: 'Cancelled',
+  }
+  return map[status?.toLowerCase()] ?? 'Pending'
+}
+
 // ── Status badge ─────────────────────────────────────────────────────────────
 function StatusBadge({ status }: { status: OrderStatus }) {
   const { bg, text, border } = statusConfig[status]
@@ -44,18 +59,31 @@ function StatusBadge({ status }: { status: OrderStatus }) {
 
 // ── Status dropdown ──────────────────────────────────────────────────────────
 function StatusDropdown({
+  orderId,
   current,
   onChange,
 }: {
+  orderId: string
   current: OrderStatus
   onChange: (s: OrderStatus) => void
 }) {
+  const [saving, setSaving] = useState(false)
+
+  const handleChange = async (newStatus: OrderStatus) => {
+    setSaving(true)
+    const dbStatus = newStatus.toLowerCase()
+    await supabase.from('orders').update({ order_status: dbStatus }).eq('id', orderId)
+    onChange(newStatus)
+    setSaving(false)
+  }
+
   return (
     <div className="relative">
       <select
         value={current}
-        onChange={(e) => onChange(e.target.value as OrderStatus)}
-        className="appearance-none bg-[#1A0C06] border border-[#D4A017]/20 text-[#F5EDD8] text-xs rounded-lg pl-2 pr-6 py-1.5 focus:outline-none focus:border-[#D4A017]/50 cursor-pointer"
+        onChange={(e) => handleChange(e.target.value as OrderStatus)}
+        disabled={saving}
+        className="appearance-none bg-[#1A0C06] border border-[#D4A017]/20 text-[#F5EDD8] text-xs rounded-lg pl-2 pr-6 py-1.5 focus:outline-none focus:border-[#D4A017]/50 cursor-pointer disabled:opacity-50"
       >
         {ALL_STATUSES.map((s) => (
           <option key={s} value={s}>{s}</option>
@@ -67,14 +95,70 @@ function StatusDropdown({
 }
 
 // ── Main page ────────────────────────────────────────────────────────────────
-// Placeholder orders — will come from Supabase in production
-const MOCK_ORDERS: Order[] = []
-
 export default function OrdersPage() {
+  const [orders, setOrders] = useState<Order[]>([])
+  const [loading, setLoading] = useState(true)
   const [activeFilter, setActiveFilter] = useState<FilterTab>('All')
   const [orderStatuses, setOrderStatuses] = useState<Record<string, OrderStatus>>({})
 
-  const filteredOrders = MOCK_ORDERS.filter((o) => {
+  useEffect(() => {
+    fetchOrders()
+  }, [])
+
+  async function fetchOrders() {
+    setLoading(true)
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .select(`
+          id,
+          order_number,
+          total_amount,
+          payment_method,
+          payment_status,
+          order_status,
+          created_at,
+          customers ( full_name ),
+          order_items ( product_name, quantity )
+        `)
+        // Only show orders that are fully paid OR are COD (not ghost awaiting_payment orders)
+        .or('payment_status.eq.paid,payment_method.eq.cod')
+        .order('created_at', { ascending: false })
+
+      if (error) {
+        console.error('Error fetching orders:', error)
+        return
+      }
+
+      const mapped: Order[] = (data || []).map((o: any) => {
+        const itemSummary = (o.order_items || [])
+          .map((i: any) => `${i.product_name} ×${i.quantity}`)
+          .join(', ')
+
+        return {
+          id: o.id.toString(),
+          orderNumber: o.order_number,
+          customer: o.customers?.full_name || 'Guest',
+          items: itemSummary || '—',
+          amount: Number(o.total_amount),
+          payment: o.payment_method?.toUpperCase() || 'ONLINE',
+          paymentStatus: o.payment_status,
+          status: mapOrderStatus(o.order_status),
+          date: new Date(o.created_at).toLocaleDateString('en-IN', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          }),
+        }
+      })
+
+      setOrders(mapped)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const filteredOrders = orders.filter((o) => {
     if (activeFilter === 'All') return true
     const current = orderStatuses[o.id] ?? o.status
     return current === activeFilter
@@ -94,9 +178,17 @@ export default function OrdersPage() {
             Manage and fulfil customer orders
           </p>
         </div>
-        <div className="flex items-center gap-2 text-xs">
-          <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse" />
-          <span className="text-[#F5EDD8]/40">Live orders</span>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={fetchOrders}
+            className="text-xs text-[#D4A017]/60 hover:text-[#D4A017] transition-colors border border-[#D4A017]/20 rounded-lg px-3 py-1.5 hover:border-[#D4A017]/40"
+          >
+            ↻ Refresh
+          </button>
+          <div className="flex items-center gap-2 text-xs">
+            <span className="w-2 h-2 rounded-full bg-[#22C55E] animate-pulse" />
+            <span className="text-[#F5EDD8]/40">Live orders</span>
+          </div>
         </div>
       </div>
 
@@ -127,27 +219,37 @@ export default function OrdersPage() {
       {/* Table */}
       <div className="bg-[#0F0603] border border-[#D4A017]/10 rounded-xl overflow-hidden">
         {/* Desktop header */}
-        <div className="hidden xl:grid grid-cols-[100px_1fr_1fr_100px_110px_130px_100px_120px] gap-3 px-5 py-3 border-b border-[#D4A017]/10">
-          {['Order #', 'Customer', 'Items', 'Amount', 'Payment', 'Status', 'Date', 'Update'].map((h) => (
+        <div className="hidden xl:grid grid-cols-[110px_80px_1fr_1fr_90px_110px_130px_90px_120px] gap-3 px-5 py-3 border-b border-[#D4A017]/10">
+          {['Order #', 'ID', 'Customer', 'Items', 'Amount', 'Payment', 'Status', 'Date', 'Update'].map((h) => (
             <p key={h} className="text-[#F5EDD8]/30 text-xs font-medium uppercase tracking-wider">
               {h}
             </p>
           ))}
         </div>
 
-        {/* Rows or empty state */}
-        {filteredOrders.length === 0 ? (
+        {/* Loading state */}
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="flex flex-col items-center gap-3">
+              <svg className="animate-spin w-6 h-6 text-[#D4A017]/60" fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeOpacity="0.3" strokeWidth="3" />
+                <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              </svg>
+              <p className="text-[#F5EDD8]/30 text-sm">Loading orders…</p>
+            </div>
+          </div>
+        ) : filteredOrders.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center px-4">
             <div className="w-16 h-16 rounded-full bg-[#D4A017]/8 flex items-center justify-center mb-4">
               <ShoppingCart className="w-7 h-7 text-[#D4A017]/40" />
             </div>
             <p className="text-[#F5EDD8]/50 text-sm font-medium">
-              {activeFilter === 'All' ? 'No orders yet' : `No ${activeFilter} orders`}
+              {activeFilter === 'All' ? 'No paid orders yet' : `No ${activeFilter} orders`}
             </p>
             <p className="text-[#F5EDD8]/25 text-xs mt-1.5 max-w-xs">
               {activeFilter === 'All'
-                ? 'Orders will appear here once customers start placing them.'
-                : `Switch to a different filter to see other orders.`}
+                ? 'Completed orders will appear here once customers finish payment.'
+                : 'Switch to a different filter to see other orders.'}
             </p>
           </div>
         ) : (
@@ -157,8 +259,9 @@ export default function OrdersPage() {
               return (
                 <li key={order.id} className="hover:bg-[#D4A017]/3 transition-colors">
                   {/* Desktop row */}
-                  <div className="hidden xl:grid grid-cols-[100px_1fr_1fr_100px_110px_130px_100px_120px] gap-3 items-center px-5 py-3.5">
-                    <p className="text-[#D4A017] text-xs font-mono font-semibold">{order.id}</p>
+                  <div className="hidden xl:grid grid-cols-[110px_80px_1fr_1fr_90px_110px_130px_90px_120px] gap-3 items-center px-5 py-3.5">
+                    <p className="text-[#D4A017] text-xs font-mono font-semibold truncate">{order.orderNumber}</p>
+                    <p className="text-[#F5EDD8]/30 text-xs font-mono">#{order.id}</p>
                     <p className="text-[#F5EDD8] text-sm truncate">{order.customer}</p>
                     <p className="text-[#F5EDD8]/60 text-xs truncate">{order.items}</p>
                     <p className="text-[#F5EDD8] text-sm font-semibold">₹{order.amount}</p>
@@ -170,6 +273,7 @@ export default function OrdersPage() {
                     <StatusBadge status={currentStatus} />
                     <p className="text-[#F5EDD8]/40 text-xs">{order.date}</p>
                     <StatusDropdown
+                      orderId={order.id}
                       current={currentStatus}
                       onChange={(s) => updateStatus(order.id, s)}
                     />
@@ -178,7 +282,10 @@ export default function OrdersPage() {
                   {/* Mobile card */}
                   <div className="xl:hidden px-4 py-4">
                     <div className="flex items-start justify-between gap-2 mb-2">
-                      <p className="text-[#D4A017] text-xs font-mono font-semibold">{order.id}</p>
+                      <div>
+                        <p className="text-[#D4A017] text-xs font-mono font-semibold">{order.orderNumber}</p>
+                        <p className="text-[#F5EDD8]/30 text-[10px] font-mono">#{order.id}</p>
+                      </div>
                       <StatusBadge status={currentStatus} />
                     </div>
                     <p className="text-[#F5EDD8] text-sm font-medium">{order.customer}</p>
@@ -194,6 +301,7 @@ export default function OrdersPage() {
                     </div>
                     <div className="mt-3">
                       <StatusDropdown
+                        orderId={order.id}
                         current={currentStatus}
                         onChange={(s) => updateStatus(order.id, s)}
                       />
