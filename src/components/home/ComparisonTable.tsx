@@ -1,7 +1,7 @@
 import { Check, X } from "lucide-react";
 
 const rows = [
-  { feature: "No Onion & Garlic", vrajaspice: true, regular: false },
+  { feature: "No Onion & Garlic Facility", vrajaspice: true, regular: false },
   { feature: "No Artificial Colours", vrajaspice: true, regular: false },
   { feature: "No Preservatives", vrajaspice: true, regular: false },
   { feature: "Premium Grade Ingredients", vrajaspice: true, regular: false },

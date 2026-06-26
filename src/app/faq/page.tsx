@@ -51,7 +51,7 @@ export const faqCategories = [
       },
       {
         q: "Are Vrajaspice products certified NONG?",
-        a: "Yes. Every Vrajaspice product is formulated, manufactured, and quality-checked to be entirely free of onion and garlic — including powders, extracts, and derivatives. Our production facility maintains strict ingredient segregation.",
+        a: "Yes. Every Vrajaspice product is formulated, manufactured, and quality-checked to be entirely free of onion and garlic — including powders, extracts, and derivatives. Our dedicated manufacturing facility is 100% No Onion No Garlic, ensuring zero risk of cross-contamination.",
       },
       {
         q: "Do your products contain any animal-derived ingredients?",
@@ -113,7 +113,7 @@ export const faqCategories = [
     faqs: [
       {
         q: "How do I place an order?",
-        a: "Simply browse our products, add items to your cart, and proceed to checkout. We accept UPI, credit/debit cards, net banking, and Cash on Delivery (COD) across India.",
+        a: "Simply browse our products, add items to your cart, and proceed to checkout. We accept UPI, credit/debit cards, and net banking across India.",
       },
       {
         q: "What is the minimum order value?",

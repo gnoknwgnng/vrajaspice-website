@@ -37,7 +37,7 @@ const badgeColors: Record<string, string> = {
 
 /* ─── Trust badge data ───────────────────────────────────────────────── */
 const TRUST_BADGES = [
-  { icon: Leaf, label: "100% NONG", sub: "No Onion No Garlic" },
+  { icon: Leaf, label: "100% NONG", sub: "No Onion No Garlic Facility" },
   { icon: Shield, label: "No Preservatives", sub: "Purely natural" },
   { icon: Sparkles, label: "No Artificial Colours", sub: "Real spice colour" },
   { icon: Package, label: "Small Batch", sub: "Fresh & aromatic" },
@@ -367,7 +367,7 @@ export default function ProductDetailClient({
                 ))}
               </div>
               <p className="text-xs text-[#8B4513] mt-3 font-medium">
-                * May contain traces of nuts. Manufactured in a facility that processes tree nuts.
+                * Manufactured in a dedicated No Onion No Garlic facility. May contain traces of nuts (processed in a facility that handles tree nuts).
               </p>
             </section>
 

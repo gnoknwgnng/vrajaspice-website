@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Playfair_Display, Inter, Quicksand } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
@@ -17,6 +17,12 @@ const playfair = Playfair_Display({
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const quicksand = Quicksand({
+  subsets: ["latin"],
+  variable: "--font-logo",
   display: "swap",
 });
 
@@ -83,7 +89,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${inter.variable} ${quicksand.variable}`}>
       <body className="min-h-screen bg-[#F5EDD8] text-[#2C1810] antialiased">
         <AuthProvider>
           <CartProvider>

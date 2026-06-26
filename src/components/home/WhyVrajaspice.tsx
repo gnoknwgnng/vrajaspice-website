@@ -3,7 +3,7 @@ const features = [
     icon: "🌿",
     title: "100% No Onion No Garlic",
     description:
-      "Every blend is crafted without onion or garlic — pure, satvik, and suitable for Vaishnavs, ISKCON devotees, Jain families, and satvik households.",
+      "Every blend is manufactured in a dedicated No Onion No Garlic facility — pure, satvik, and suitable for Vaishnavs, ISKCON devotees, Jain families, and satvik households.",
     color: "from-[#4A7C59]/10 to-[#4A7C59]/5",
     border: "border-[#4A7C59]/20",
     iconBg: "bg-[#4A7C59]/15",

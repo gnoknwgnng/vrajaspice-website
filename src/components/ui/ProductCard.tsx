@@ -108,40 +108,41 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
         </p>
 
         {/* NONG badge */}
-        <div className="flex items-center gap-1 mb-3">
-          <span className="text-[9px] font-semibold text-[#4A7C59] bg-[#E8F5E9] px-2 py-0.5 rounded-full border border-[#4A7C59]/20">
+        <div className="flex flex-wrap items-center gap-1 mb-3">
+          <span className="text-[9px] font-semibold text-[#4A7C59] bg-[#E8F5E9] px-2 py-0.5 rounded-full border border-[#4A7C59]/20 whitespace-nowrap">
             🌿 NONG
           </span>
-          <span className="text-[9px] font-semibold text-[#4A7C59] bg-[#E8F5E9] px-2 py-0.5 rounded-full border border-[#4A7C59]/20">
+          <span className="text-[9px] font-semibold text-[#4A7C59] bg-[#E8F5E9] px-2 py-0.5 rounded-full border border-[#4A7C59]/20 whitespace-nowrap">
             No Preservatives
           </span>
         </div>
 
         {/* Price */}
-        <div className="flex items-center gap-2 mb-4">
-          <span className="font-bold text-[#8B1A1A] text-xl">
+        <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 mb-4">
+          <span className="font-bold text-[#8B1A1A] text-lg sm:text-xl">
             ₹{product.sellingPrice}
           </span>
-          <span className="text-[#C4A88A] text-sm line-through">
+          <span className="text-[#C4A88A] text-xs sm:text-sm line-through">
             ₹{product.mrp}
           </span>
-          <span className="text-[10px] font-bold text-[#E8721C]">
+          <span className="text-[9px] sm:text-[10px] font-bold text-[#E8721C] whitespace-nowrap">
             Save ₹{product.mrp - product.sellingPrice}
           </span>
         </div>
 
         {/* Action buttons */}
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
           <button
             onClick={handleAddToCart}
-            className="flex-1 flex items-center justify-center gap-1.5 bg-[#8B1A1A] text-[#F5EDD8] py-2.5 rounded-xl font-semibold text-sm hover:bg-[#6B1212] transition-colors"
+            className="flex-1 flex items-center justify-center gap-1.5 bg-[#8B1A1A] text-[#F5EDD8] h-10 rounded-xl font-semibold text-xs sm:text-sm hover:bg-[#6B1212] transition-colors"
           >
             <ShoppingCart className="w-3.5 h-3.5" />
-            Add to Cart
+            <span>Add to Cart</span>
           </button>
           <Link
             href={`/products/${product.slug}`}
-            className="flex items-center justify-center gap-1 bg-[#EDE0C4] text-[#2C1810] px-3 py-2.5 rounded-xl font-semibold text-sm hover:bg-[#E5D5A8] transition-colors"
+            className="hidden sm:flex items-center justify-center bg-[#EDE0C4] text-[#2C1810] w-10 h-10 rounded-xl font-semibold text-sm hover:bg-[#E5D5A8] transition-colors"
+            title="View Details"
           >
             <Zap className="w-3.5 h-3.5" />
           </Link>

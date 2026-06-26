@@ -148,78 +148,7 @@ export default function ShopClient({ initialProducts }: { initialProducts: Produ
 
   return (
     <div className="min-h-screen bg-[#F5EDD8]">
-      {/* ── Page Header ────────────────────────────────────────────────── */}
-      <header className="relative overflow-hidden bg-[#F5EDD8] border-b border-[#EDE0C4]">
-        {/* Parchment texture layer */}
-        <div
-          className="absolute inset-0 opacity-40"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E\")",
-          }}
-        />
 
-        {/* Decorative spice dots */}
-        <div className="absolute top-6 left-8 w-2 h-2 rounded-full bg-[#E8721C] opacity-30" />
-        <div className="absolute top-10 left-14 w-1.5 h-1.5 rounded-full bg-[#D4A017] opacity-25" />
-        <div className="absolute top-4 left-20 w-1 h-1 rounded-full bg-[#8B1A1A] opacity-20" />
-        <div className="absolute bottom-8 right-10 w-2.5 h-2.5 rounded-full bg-[#E8721C] opacity-25" />
-        <div className="absolute bottom-4 right-24 w-1.5 h-1.5 rounded-full bg-[#D4A017] opacity-30" />
-        <div className="absolute top-8 right-36 w-1 h-1 rounded-full bg-[#8B4513] opacity-20" />
-
-        {/* Large faded background word */}
-        <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none select-none"
-          aria-hidden="true"
-        >
-          <span
-            className="font-serif font-black text-[120px] md:text-[180px] tracking-[0.3em] text-[#8B1A1A]"
-            style={{ opacity: 0.035 }}
-          >
-            SPICES
-          </span>
-        </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
-          <Breadcrumb />
-
-          <div className="mt-6 text-center">
-            <p className="text-[#E8721C] text-xs font-bold tracking-[0.25em] uppercase mb-3">
-              🌿 All Products
-            </p>
-
-            <h1 className="font-serif font-black text-[#2C1810] text-4xl md:text-5xl lg:text-6xl leading-tight">
-              Spice With Soul
-            </h1>
-
-            <BrushStroke />
-
-            <p className="mt-5 text-[#6B4E37] text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-              Ten premium No Onion No Garlic masala blends — small-batch crafted,
-              free from preservatives and artificial colours, made for the discerning
-              satvik kitchen.
-            </p>
-
-            {/* Trust pills */}
-            <div className="flex flex-wrap items-center justify-center gap-2 mt-6">
-              {[
-                "🌿 100% NONG",
-                "🚫 No Preservatives",
-                "🎨 No Artificial Colour",
-                "🏺 Small Batch",
-                "✅ Satvik Friendly",
-              ].map((pill) => (
-                <span
-                  key={pill}
-                  className="text-xs font-semibold text-[#4A7C59] bg-white/70 border border-[#4A7C59]/20 px-3 py-1 rounded-full"
-                >
-                  {pill}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* ── Sticky Controls Bar ────────────────────────────────────────── */}
       <div className="sticky top-0 z-20 bg-[#F5EDD8]/95 backdrop-blur-md border-b border-[#EDE0C4] shadow-sm">
@@ -323,7 +252,10 @@ export default function ShopClient({ initialProducts }: { initialProducts: Produ
       </div>
 
       {/* ── Main Content ───────────────────────────────────────────────── */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+        <div className="mb-6">
+          <Breadcrumb />
+        </div>
         {/* Result count + active chip */}
         <div className="flex items-center justify-between mb-6">
           <p className="text-sm text-[#6B4E37]">
@@ -400,7 +332,7 @@ export default function ShopClient({ initialProducts }: { initialProducts: Produ
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3">
                 {[
-                  "🌿 No Onion No Garlic",
+                  "🌿 No Onion No Garlic Facility",
                   "🏺 Small Batch Crafted",
                   "✅ 100% Pure",
                 ].map((t) => (

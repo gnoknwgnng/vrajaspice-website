@@ -10,6 +10,10 @@ const faqs = [
     a: "NONG stands for No Onion No Garlic. All Vrajaspice blends are crafted completely without onion and garlic — making them suitable for Vaishnavs, ISKCON devotees, Jain consumers, and anyone following a satvik or pure vegetarian lifestyle.",
   },
   {
+    q: "Are the spices manufactured in a dedicated facility?",
+    a: "Yes. Every Vrajaspice blend is formulated, ground, and packed in a dedicated 100% No Onion No Garlic facility. This ensures zero risk of cross-contamination, maintaining absolute purity for your satvik dietary requirements.",
+  },
+  {
     q: "Are Vrajaspice products suitable for Jain cooking?",
     a: "Yes! All our masalas are formulated without onion, garlic, and other Jain-restricted ingredients. Our blends are ideal for Jain households looking for premium, authentic flavour without compromise.",
   },
@@ -26,8 +30,8 @@ const faqs = [
     a: "Our masalas have a shelf life of 12 months from the date of manufacture. For best results, store in a cool, dry place away from direct sunlight. Keep the lid tightly closed after use.",
   },
   {
-    q: "Do you ship across India? Is Cash on Delivery available?",
-    a: "Yes, we ship pan-India. Cash on Delivery (COD) is available across most PIN codes in India. Orders above ₹499 qualify for free shipping.",
+    q: "Do you ship across India? What are the shipping charges?",
+    a: "Yes, we ship pan-India. Orders above ₹499 qualify for free shipping. For orders below ₹499, a flat shipping charge of ₹49 is applied.",
   },
 ];
 

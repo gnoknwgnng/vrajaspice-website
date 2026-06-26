@@ -20,7 +20,7 @@ const SHIPPING_CHARGE = 49;
 // ─── Trust badge data ─────────────────────────────────────────────────────────
 const TRUST_BADGES = [
   { icon: "🔒", label: "100% Secure Checkout" },
-  { icon: "🌿", label: "No Onion No Garlic" },
+  { icon: "🌿", label: "No Onion No Garlic Facility" },
   { icon: "🚚", label: "Free Shipping ₹499+" },
   { icon: "✅", label: "100% Pure & Natural" },
 ];

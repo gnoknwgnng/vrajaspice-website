@@ -39,12 +39,6 @@ const PAYMENT_METHODS = [
     label: "Net Banking",
     description: "All major Indian banks",
   },
-  {
-    id: "cod",
-    icon: "💰",
-    label: "Cash on Delivery",
-    description: "Pay when your order arrives",
-  },
 ];
 
 const FREE_SHIPPING_AT = 499;

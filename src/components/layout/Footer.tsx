@@ -17,15 +17,15 @@ const footerLinks = {
     { href: "/contact", label: "Contact Us" },
   ],
   policies: [
-    { href: "/privacy-policy", label: "Privacy Policy" },
-    { href: "/terms", label: "Terms & Conditions" },
-    { href: "/shipping-policy", label: "Shipping Policy" },
-    { href: "/refund-policy", label: "Refund Policy" },
+    { href: "/#privacy-policy", label: "Privacy Policy" },
+    { href: "/#terms-and-conditions", label: "Terms & Conditions" },
+    { href: "/#shipping-policy", label: "Shipping Policy" },
+    { href: "/#refund-policy", label: "Refund Policy" },
   ],
 };
 
 const trustBadges = [
-  "🌿 No Onion No Garlic",
+  "🌿 No Onion No Garlic Facility",
   "🇮🇳 Made in India",
   "✨ Small Batch Crafted",
   "🚫 No Preservatives",
@@ -61,8 +61,9 @@ export default function Footer() {
           {/* Brand Column */}
           <div className="lg:col-span-2">
             <div className="mb-4">
-              <div className="font-serif font-bold text-[#F5EDD8] text-3xl tracking-tight">
-                Vrajaspice
+              <div className="font-logo font-bold text-3xl leading-none tracking-tight flex items-center gap-0.5 lowercase">
+                <span className="text-[#C14420]">vraja</span>
+                <span className="text-[#4E7D22]">spice</span>
               </div>
               <div className="text-[#D4A017] text-xs tracking-[0.25em] uppercase mt-1">
                 Spice With Soul

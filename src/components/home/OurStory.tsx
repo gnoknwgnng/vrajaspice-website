@@ -71,8 +71,7 @@ export default function OurStory() {
                 Vrajaspice was born from a simple belief — that purity and taste
                 can coexist. Inspired by traditional Indian kitchens and the
                 needs of satvik families worldwide, we set out to create spice
-                blends that are authentic, flavourful, and free from onion and
-                garlic.
+                blends that are authentic, flavourful, and manufactured in a dedicated No Onion No Garlic facility.
               </p>
               <p>
                 Every blend starts with a question: would our grandmothers have
@@ -88,10 +87,9 @@ export default function OurStory() {
               </p>
             </div>
 
-            {/* Stats */}
             <div className="grid grid-cols-3 gap-4 mt-8 mb-8">
               {[
-                { num: "10+", label: "Premium Blends" },
+                { num: "Dedicated", label: "NONG Facility" },
                 { num: "100%", label: "Pure NONG" },
                 { num: "0", label: "Artificial Additives" },
               ].map((stat) => (

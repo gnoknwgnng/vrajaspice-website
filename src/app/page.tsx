@@ -10,7 +10,7 @@ import ComparisonTable from "@/components/home/ComparisonTable";
 import Testimonials from "@/components/home/Testimonials";
 import OurStory from "@/components/home/OurStory";
 import NewsletterSignup from "@/components/home/NewsletterSignup";
-import FAQPreview from "@/components/home/FAQPreview";
+import PoliciesPreview from "@/components/home/PoliciesPreview";
 import FinalCTA from "@/components/home/FinalCTA";
 
 import FeaturedProductsGrid from "@/components/home/FeaturedProductsGrid";
@@ -84,7 +84,7 @@ export default async function HomePage() {
       <Testimonials />
       <OurStory />
       <NewsletterSignup />
-      <FAQPreview />
+      <PoliciesPreview />
       <FinalCTA />
     </>
   );

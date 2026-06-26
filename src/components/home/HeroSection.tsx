@@ -146,13 +146,13 @@ export default function HeroSection() {
             </div>
 
             {/* Floating stat cards */}
-            <div className="absolute top-8 -left-4 md:left-0 bg-white/80 backdrop-blur-sm border border-[#EDE0C4] rounded-2xl px-4 py-3 shadow-lg">
-              <div className="font-serif font-bold text-[#8B1A1A] text-2xl">10+</div>
-              <div className="text-[#6B4E37] text-xs font-medium">Premium Blends</div>
+            <div className="absolute top-4 left-2 sm:-left-4 md:-left-8 bg-white/80 backdrop-blur-sm border border-[#EDE0C4] rounded-2xl px-3 py-2 sm:px-4 sm:py-3 shadow-lg max-w-[140px] sm:max-w-[180px]">
+              <div className="text-[#8B1A1A] font-bold text-[10px] sm:text-xs uppercase tracking-wide">Manufactured in a</div>
+              <div className="text-[#6B4E37] text-[9px] sm:text-[11px] font-bold mt-0.5 leading-tight">No Onion, No Garlic Facility</div>
             </div>
-            <div className="absolute bottom-12 -right-4 md:right-0 bg-white/80 backdrop-blur-sm border border-[#EDE0C4] rounded-2xl px-4 py-3 shadow-lg">
-              <div className="font-serif font-bold text-[#8B1A1A] text-2xl">100%</div>
-              <div className="text-[#6B4E37] text-xs font-medium">Pure NONG</div>
+            <div className="absolute bottom-6 right-2 sm:-right-4 md:right-0 bg-white/80 backdrop-blur-sm border border-[#EDE0C4] rounded-2xl px-3 py-2 sm:px-4 sm:py-3 shadow-lg">
+              <div className="font-serif font-bold text-[#8B1A1A] text-xl sm:text-2xl">100%</div>
+              <div className="text-[#6B4E37] text-[10px] sm:text-xs font-medium">Pure NONG</div>
             </div>
           </div>
         </div>

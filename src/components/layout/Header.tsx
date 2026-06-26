@@ -65,10 +65,11 @@ export default function Header() {
                 </div>
               </div>
               <div>
-                <div className="font-serif font-bold text-[#8B1A1A] text-xl md:text-2xl leading-tight tracking-tight">
-                  Vrajaspice
+                <div className="font-logo font-bold text-2xl md:text-3xl leading-none tracking-tight flex items-center gap-0.5 lowercase">
+                  <span className="text-[#C14420]">vraja</span>
+                  <span className="text-[#4E7D22]">spice</span>
                 </div>
-                <div className="text-[#8B4513] text-[10px] tracking-[0.2em] uppercase font-medium -mt-0.5">
+                <div className="text-[#8B4513] text-[9px] tracking-[0.25em] uppercase font-medium mt-0.5 hidden sm:block">
                   Spice With Soul
                 </div>
               </div>
@@ -101,14 +102,7 @@ export default function Header() {
                 WhatsApp Us
               </a>
 
-              {/* Search */}
-              <Link
-                href="/shop"
-                className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-[#EDE0C4] transition-colors duration-200 text-[#4A2A1A]"
-                aria-label="Search"
-              >
-                <Search className="w-4.5 h-4.5" />
-              </Link>
+
 
               {/* User Account */}
               <Link

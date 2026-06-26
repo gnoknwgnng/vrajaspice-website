@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about Vrajaspice — born from a belief that purity and taste can coexist. Crafting premium No Onion No Garlic spice blends for satvik, Jain, ISKCON, and Vaishnav families worldwide.",
+    "Learn about Vrajaspice — born from a belief that purity and taste can coexist. Crafting premium No Onion No Garlic spice blends for satvik and Vaishnav families worldwide.",
 };
 
 /* ─── Brush-stroke SVG decorations ──────────────────────────────────────── */
@@ -129,7 +129,7 @@ export default function AboutPage() {
                 meal. Vrajaspice carries that same spirit forward.
               </p>
               <p>
-                We noticed that millions of families following satvik or Jain lifestyles were
+                We noticed that millions of families following satvik lifestyles were
                 compromising on flavour or spending hours crafting spice blends from scratch. We
                 asked: <em>why should purity come at the cost of taste?</em>
               </p>
@@ -210,11 +210,9 @@ export default function AboutPage() {
             what you eat reflects who you are.
           </p>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+          <div className="grid grid-cols-2 gap-4 sm:gap-5 max-w-3xl mx-auto">
             {[
               { label: "Vaishnavs", desc: "Devotional cuisine honouring the satvik tradition", emoji: "🪷" },
-              { label: "ISKCON Devotees", desc: "Temple-kitchen approved, prasad-quality blends", emoji: "🔱" },
-              { label: "Jain Families", desc: "Strict Jain dietary principles — no root vegetables", emoji: "☸️" },
               { label: "Satvik Households", desc: "Pure food philosophy without compromise", emoji: "🌿" },
               { label: "Health-Conscious Families", desc: "Clean label, no preservatives, no MSG", emoji: "💚" },
               { label: "Global Indian Diaspora", desc: "Authentic tastes of home, shipped anywhere in India", emoji: "🇮🇳" },
@@ -257,7 +255,7 @@ export default function AboutPage() {
               },
               {
                 title: "Zero Compromise on Purity",
-                desc: "Our NONG (No Onion No Garlic) promise is absolute. We maintain strict separation in sourcing, processing, and packaging.",
+                desc: "Our NONG (No Onion No Garlic) promise is absolute. All blends are manufactured in a dedicated No Onion No Garlic facility with zero risk of cross-contamination.",
                 accent: "#D4A017",
               },
               {
