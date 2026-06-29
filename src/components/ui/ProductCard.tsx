@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingCart, Zap } from "lucide-react";
+import { ShoppingCart, Zap, Plus, Minus, Trash2 } from "lucide-react";
 import { Product, getDiscountPercent } from "@/lib/products";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
@@ -24,10 +24,14 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product, priority = false }: ProductCardProps) {
-  const { addItem } = useCart();
+  const { addItem, items, updateQuantity, removeItem } = useCart();
   const { user } = useAuth();
   const router = useRouter();
   const discount = getDiscountPercent(product.sellingPrice, product.mrp);
+
+  // Check if this product is already in the cart
+  const cartItem = items.find((i) => i.product.slug === product.slug);
+  const cartQty = cartItem?.quantity ?? 0;
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -39,6 +43,23 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
     }
     addItem(product);
     toast.success(`${product.name} added to cart! 🌿`);
+  };
+
+  const handleIncrease = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    updateQuantity(product.slug, cartQty + 1);
+  };
+
+  const handleDecrease = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (cartQty <= 1) {
+      removeItem(product.slug);
+      toast.success(`${product.name} removed from cart`);
+    } else {
+      updateQuantity(product.slug, cartQty - 1);
+    }
   };
 
   return (
@@ -75,16 +96,27 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
             )}
           </div>
 
-          {/* Quick Buy overlay on hover */}
-          <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-            <button
-              onClick={handleAddToCart}
-              className="w-full bg-[#8B1A1A]/90 backdrop-blur-sm text-[#F5EDD8] py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 hover:bg-[#8B1A1A] transition-colors"
-            >
-              <ShoppingCart className="w-4 h-4" />
-              Quick Add
-            </button>
-          </div>
+          {/* Cart quantity badge on image (if in cart) */}
+          {cartQty > 0 && (
+            <div className="absolute top-3 right-3">
+              <span className="w-6 h-6 rounded-full bg-[#8B1A1A] text-[#F5EDD8] flex items-center justify-center text-[11px] font-bold shadow-md">
+                {cartQty}
+              </span>
+            </div>
+          )}
+
+          {/* Quick Add overlay on hover (only shown when NOT in cart) */}
+          {cartQty === 0 && (
+            <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+              <button
+                onClick={handleAddToCart}
+                className="w-full bg-[#8B1A1A]/90 backdrop-blur-sm text-[#F5EDD8] py-2.5 rounded-xl font-semibold text-sm flex items-center justify-center gap-2 hover:bg-[#8B1A1A] transition-colors"
+              >
+                <ShoppingCart className="w-4 h-4" />
+                Quick Add
+              </button>
+            </div>
+          )}
         </div>
       </Link>
 
@@ -130,23 +162,51 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
           </span>
         </div>
 
-        {/* Action buttons */}
-        <div className="flex gap-2 items-center">
-          <button
-            onClick={handleAddToCart}
-            className="flex-1 flex items-center justify-center gap-1.5 bg-[#8B1A1A] text-[#F5EDD8] h-10 rounded-xl font-semibold text-xs sm:text-sm hover:bg-[#6B1212] transition-colors"
-          >
-            <ShoppingCart className="w-3.5 h-3.5" />
-            <span>Add to Cart</span>
-          </button>
-          <Link
-            href={`/products/${product.slug}`}
-            className="hidden sm:flex items-center justify-center bg-[#EDE0C4] text-[#2C1810] w-10 h-10 rounded-xl font-semibold text-sm hover:bg-[#E5D5A8] transition-colors"
-            title="View Details"
-          >
-            <Zap className="w-3.5 h-3.5" />
-          </Link>
-        </div>
+        {/* Action buttons — Amazon style */}
+        {cartQty === 0 ? (
+          /* ── Not in cart: show Add to Cart ── */
+          <div className="flex gap-2 items-center">
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 flex items-center justify-center gap-1.5 bg-[#8B1A1A] text-[#F5EDD8] h-10 rounded-xl font-semibold text-xs sm:text-sm hover:bg-[#6B1212] active:scale-95 transition-all"
+            >
+              <ShoppingCart className="w-3.5 h-3.5" />
+              <span>Add to Cart</span>
+            </button>
+            <Link
+              href={`/products/${product.slug}`}
+              className="hidden sm:flex items-center justify-center bg-[#EDE0C4] text-[#2C1810] w-10 h-10 rounded-xl font-semibold text-sm hover:bg-[#E5D5A8] transition-colors"
+              title="View Details"
+            >
+              <Zap className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        ) : (
+          /* ── In cart: show Amazon-style quantity stepper ── */
+          <div className="flex items-center border-2 border-[#8B1A1A] rounded-xl overflow-hidden h-10">
+            <button
+              onClick={handleDecrease}
+              className="flex items-center justify-center w-10 h-full bg-[#F5EDD8] hover:bg-[#EDE0C4] transition-colors flex-shrink-0"
+              aria-label="Decrease quantity"
+            >
+              {cartQty <= 1 ? (
+                <Trash2 className="w-3.5 h-3.5 text-[#8B1A1A]" />
+              ) : (
+                <Minus className="w-3.5 h-3.5 text-[#8B1A1A]" />
+              )}
+            </button>
+            <span className="flex-1 text-center text-sm font-bold text-[#2C1810] bg-[#FFF8F2] select-none">
+              {cartQty} in cart
+            </span>
+            <button
+              onClick={handleIncrease}
+              className="flex items-center justify-center w-10 h-full bg-[#8B1A1A] hover:bg-[#6B1212] transition-colors flex-shrink-0"
+              aria-label="Increase quantity"
+            >
+              <Plus className="w-3.5 h-3.5 text-[#F5EDD8]" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -33,7 +33,6 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       if (existing) {
         return {
           ...state,
-          isOpen: true,
           items: state.items.map((i) =>
             i.product.slug === action.product.slug
               ? { ...i, quantity: i.quantity + qty }
@@ -43,7 +42,6 @@ function cartReducer(state: CartState, action: CartAction): CartState {
       }
       return {
         ...state,
-        isOpen: true,
         items: [...state.items, { product: action.product, quantity: qty }],
       };
     }
