@@ -66,6 +66,38 @@ export async function POST(req: Request) {
       }
     }
 
+    // 3.5. Save Address to Saved Addresses if Registered Customer
+    if (resolvedCustomerId && shippingAddress) {
+      try {
+        const { data: existingAddress, error: addressFindError } = await supabase
+          .from('addresses')
+          .select('id')
+          .eq('customer_id', resolvedCustomerId)
+          .eq('line1', shippingAddress.address1.trim())
+          .eq('city', shippingAddress.city.trim())
+          .eq('pin_code', shippingAddress.pinCode.trim())
+          .maybeSingle()
+
+        if (!addressFindError && !existingAddress) {
+          await supabase
+            .from('addresses')
+            .insert([
+              {
+                customer_id: resolvedCustomerId,
+                line1: shippingAddress.address1.trim(),
+                line2: shippingAddress.address2 ? shippingAddress.address2.trim() : null,
+                city: shippingAddress.city.trim(),
+                state: shippingAddress.state.trim(),
+                pin_code: shippingAddress.pinCode.trim(),
+                country: 'India',
+              }
+            ])
+        }
+      } catch (addrErr) {
+        console.error('Error auto-saving shipping address:', addrErr)
+      }
+    }
+
     // 4. Create Order
     const { data: orderData, error: orderError } = await supabase
       .from('orders')

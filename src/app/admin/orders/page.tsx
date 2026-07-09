@@ -20,6 +20,17 @@ interface Order {
   date: string
   awbNumber?: string
   icarryShipmentId?: string
+  shippingAddress?: {
+    address1: string
+    address2?: string
+    city: string
+    state: string
+    pinCode: string
+  }
+  itemsList: Array<{
+    product_name: string
+    quantity: number
+  }>
 }
 
 // ── Status styling ───────────────────────────────────────────────────────────
@@ -103,6 +114,7 @@ export default function OrdersPage() {
   const [activeFilter, setActiveFilter] = useState<FilterTab>('All')
   const [orderStatuses, setOrderStatuses] = useState<Record<string, OrderStatus>>({})
   const [shippingLoadingId, setShippingLoadingId] = useState<string | null>(null)
+  const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchOrders()
@@ -123,6 +135,7 @@ export default function OrdersPage() {
           created_at,
           awb_number,
           icarry_shipment_id,
+          shipping_address,
           customers ( full_name ),
           order_items ( product_name, quantity )
         `)
@@ -151,6 +164,8 @@ export default function OrdersPage() {
           status: mapOrderStatus(o.order_status),
           awbNumber: o.awb_number || undefined,
           icarryShipmentId: o.icarry_shipment_id || undefined,
+          shippingAddress: o.shipping_address || undefined,
+          itemsList: o.order_items || [],
           date: new Date(o.created_at).toLocaleDateString('en-IN', {
             day: 'numeric',
             month: 'short',
@@ -318,7 +333,18 @@ export default function OrdersPage() {
                   <div className="hidden xl:grid grid-cols-[110px_80px_1fr_1fr_90px_110px_130px_90px_150px] gap-3 items-center px-5 py-3.5">
                     <p className="text-[#D4A017] text-xs font-mono font-semibold truncate">{order.orderNumber}</p>
                     <p className="text-[#F5EDD8]/30 text-xs font-mono">#{order.id}</p>
-                    <p className="text-[#F5EDD8] text-sm truncate">{order.customer}</p>
+                    
+                    {/* Collapsible details toggle on Customer name */}
+                    <div 
+                      onClick={() => setExpandedOrderId(expandedOrderId === order.id ? null : order.id)}
+                      className="cursor-pointer hover:underline flex flex-col justify-start items-start min-w-0"
+                    >
+                      <span className="text-[#F5EDD8] text-sm font-semibold truncate">{order.customer}</span>
+                      <span className="text-[10px] text-[#D4A017]/50 mt-0.5 select-none">
+                        {expandedOrderId === order.id ? 'Hide details ▲' : 'View details ▼'}
+                      </span>
+                    </div>
+
                     <p className="text-[#F5EDD8]/60 text-xs truncate">{order.items}</p>
                     <p className="text-[#F5EDD8] text-sm font-semibold">₹{order.amount}</p>
                     <span className={`inline-flex items-center text-[10px] font-semibold px-2 py-0.5 rounded-full border uppercase tracking-wide w-fit
@@ -378,7 +404,17 @@ export default function OrdersPage() {
                         )}
                       </div>
                     </div>
-                    <p className="text-[#F5EDD8] text-sm font-medium">{order.customer}</p>
+                    
+                    <div 
+                      onClick={() => setExpandedOrderId(expandedOrderId === order.id ? null : order.id)}
+                      className="cursor-pointer hover:underline flex items-center justify-between gap-2 py-1"
+                    >
+                      <p className="text-[#F5EDD8] text-sm font-semibold">{order.customer}</p>
+                      <span className="text-[10px] text-[#D4A017]/60 select-none">
+                        {expandedOrderId === order.id ? 'Hide details ▲' : 'View details ▼'}
+                      </span>
+                    </div>
+
                     <p className="text-[#F5EDD8]/40 text-xs mt-0.5">{order.items}</p>
                     <div className="flex items-center gap-3 mt-2 flex-wrap justify-between">
                       <div className="flex items-center gap-3">
@@ -421,6 +457,41 @@ export default function OrdersPage() {
                       />
                     </div>
                   </div>
+
+                  {/* Expanded Detailed Panel */}
+                  {expandedOrderId === order.id && (
+                    <div className="bg-[#120502] border-t border-[#D4A017]/10 px-5 py-4 space-y-4 text-xs text-[#F5EDD8]/80 animate-[fadeIn_0.2s_ease-out_forwards]">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Shipping Address */}
+                        <div>
+                          <h4 className="font-bold text-[#D4A017] uppercase tracking-wider mb-2">📍 Shipping Address</h4>
+                          {order.shippingAddress ? (
+                            <div className="space-y-1 bg-[#090200] p-3.5 rounded-lg border border-[#D4A017]/5 font-sans leading-relaxed">
+                              <p className="font-semibold text-[#F5EDD8]">{order.customer}</p>
+                              <p>{order.shippingAddress.address1}</p>
+                              {order.shippingAddress.address2 && <p>{order.shippingAddress.address2}</p>}
+                              <p>{order.shippingAddress.city}, {order.shippingAddress.state} – {order.shippingAddress.pinCode}</p>
+                            </div>
+                          ) : (
+                            <p className="text-[#F5EDD8]/40">No shipping address recorded</p>
+                          )}
+                        </div>
+
+                        {/* Detailed Items List */}
+                        <div>
+                          <h4 className="font-bold text-[#D4A017] uppercase tracking-wider mb-2">🛍️ Order Items</h4>
+                          <div className="bg-[#090200] p-3.5 rounded-lg border border-[#D4A017]/5 font-sans space-y-2.5">
+                            {order.itemsList.map((item, idx) => (
+                              <div key={idx} className="flex justify-between items-center border-b border-[#D4A017]/5 pb-2 last:border-0 last:pb-0">
+                                <span className="text-[#F5EDD8] font-medium">{item.product_name}</span>
+                                <span className="font-mono text-[#D4A017] font-semibold">Qty: {item.quantity}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </li>
               )
             })}
