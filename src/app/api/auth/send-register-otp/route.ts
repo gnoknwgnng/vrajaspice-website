@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     const formattedMobile = formatPhoneNumber(whatsappNumber);
 
     // Call Authyo Send OTP Endpoint
-    const response = await fetch("https://authyo.io/api/v1/authyoapi/sendotp", {
+    const response = await fetch("https://app.authyo.io/api/v1/auth/sendotp", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

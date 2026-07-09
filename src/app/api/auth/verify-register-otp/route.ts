@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     const clientSecret = process.env.AUTHYO_CLIENT_SECRET || "495b3bebaf154dae849b4b1a076443f9";
 
     // Call Authyo Verify OTP Endpoint (GET request with query parameters)
-    const url = new URL("https://authyo.io/api/v1/authyoapi/verifyotp");
+    const url = new URL("https://app.authyo.io/api/v1/auth/verifyotp");
     url.searchParams.append("maskId", maskId);
     url.searchParams.append("otp", otp);
 
