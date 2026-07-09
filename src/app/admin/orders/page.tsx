@@ -313,7 +313,7 @@ export default function OrdersPage() {
                         current={currentStatus}
                         onChange={(s) => updateStatus(order.id, s)}
                       />
-                      {!order.awbNumber && (currentStatus === 'Confirmed' || currentStatus === 'Packed') && (
+                      {!order.awbNumber && currentStatus !== 'Cancelled' && currentStatus !== 'Delivered' && (
                         <button
                           onClick={() => handleShipOrder(order.id)}
                           disabled={shippingLoadingId === order.id}
@@ -351,7 +351,7 @@ export default function OrdersPage() {
                         </span>
                         <span className="text-[#F5EDD8]/30 text-xs">{order.date}</span>
                       </div>
-                      {!order.awbNumber && (currentStatus === 'Confirmed' || currentStatus === 'Packed') && (
+                      {!order.awbNumber && currentStatus !== 'Cancelled' && currentStatus !== 'Delivered' && (
                         <button
                           onClick={() => handleShipOrder(order.id)}
                           disabled={shippingLoadingId === order.id}
