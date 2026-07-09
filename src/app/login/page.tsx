@@ -23,6 +23,12 @@ function LoginForm() {
   const [error, setError] = useState("");
   const [registeredSuccess, setRegisteredSuccess] = useState(false);
 
+  // Authyo OTP states
+  const [otpStep, setOtpStep] = useState<"form" | "otp">("form");
+  const [otpCode, setOtpCode] = useState("");
+  const [maskId, setMaskId] = useState("");
+  const [resendCooldown, setResendCooldown] = useState(0);
+
   const redirectTo = searchParams.get("redirect") || "/account";
 
   useEffect(() => {
@@ -68,13 +74,62 @@ function LoginForm() {
     }
   };
 
-  // Directly creates account in Supabase (no OTP required)
+  // Resend cooldown timer
+  useEffect(() => {
+    if (resendCooldown > 0) {
+      const timer = setTimeout(() => setResendCooldown(resendCooldown - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [resendCooldown]);
+
+  // Sends OTP to user's whatsapp/mobile number first
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
+      const res = await fetch("/api/auth/send-register-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ whatsappNumber: whatsapp }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send OTP.");
+
+      setMaskId(data.maskId);
+      setOtpStep("otp");
+      setResendCooldown(60);
+      toast.success("OTP sent to your mobile number via SMS!");
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Failed to send OTP. Please check your mobile number.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Verifies OTP and completes Supabase signUp
+  const handleVerifyAndRegister = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      // 1. Verify OTP with Authyo
+      const verifyRes = await fetch("/api/auth/verify-register-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ otp: otpCode, maskId }),
+      });
+
+      const verifyData = await verifyRes.json();
+      if (!verifyRes.ok) throw new Error(verifyData.error || "Incorrect OTP. Please try again.");
+
+      toast.success("Mobile number verified successfully!");
+
+      // 2. Perform Supabase SignUp
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
@@ -98,7 +153,34 @@ function LoginForm() {
       }
     } catch (err: any) {
       console.error(err);
-      setError(err.message || "Failed to create account. Please try again.");
+      setError(err.message || "Verification failed. Please check the code and try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Resends OTP
+  const handleResendOtp = async () => {
+    if (resendCooldown > 0) return;
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/auth/send-register-otp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ whatsappNumber: whatsapp }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to resend OTP.");
+
+      setMaskId(data.maskId);
+      setResendCooldown(60);
+      toast.success("A new OTP has been sent via SMS.");
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Failed to resend OTP. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -192,96 +274,167 @@ function LoginForm() {
               </div>
             )}
 
-            <form onSubmit={activeTab === "login" ? handleLogin : handleRegister} className="space-y-4">
-              {activeTab === "register" && (
-                <>
-                  <div>
-                    <label className="block text-[#4A2A1A] text-xs font-semibold uppercase tracking-wider mb-2">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={fullName}
-                      onChange={(e) => setFullName(e.target.value)}
-                      placeholder="e.g. Radhika Sharma"
-                      className="w-full px-4 py-3 bg-[#F5EDD8]/40 border border-[#E6D7B8] text-[#2C1810] placeholder-[#2C1810]/30 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A] transition-all"
-                    />
-                  </div>
+            {activeTab === "register" && otpStep === "otp" ? (
+              <form onSubmit={handleVerifyAndRegister} className="space-y-4">
+                <div className="text-center py-1">
+                  <p className="text-[#4A2A1A] text-sm leading-relaxed mb-4">
+                    We've sent a 6-digit verification code to <strong className="text-[#2C1810]">{whatsapp}</strong> via SMS.
+                  </p>
+                </div>
 
-                  <div>
-                    <label className="block text-[#4A2A1A] text-xs font-semibold uppercase tracking-wider mb-2">
-                      WhatsApp Number
-                    </label>
-                    <input
-                      type="tel"
-                      required
-                      value={whatsapp}
-                      onChange={(e) => setWhatsapp(e.target.value)}
-                      placeholder="e.g. +91 9121552086"
-                      className="w-full px-4 py-3 bg-[#F5EDD8]/40 border border-[#E6D7B8] text-[#2C1810] placeholder-[#2C1810]/30 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A] transition-all"
-                    />
-                  </div>
-                </>
-              )}
-
-              <div>
-                <label className="block text-[#4A2A1A] text-xs font-semibold uppercase tracking-wider mb-2">
-                  Email Address
-                </label>
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@email.com"
-                  className="w-full px-4 py-3 bg-[#F5EDD8]/40 border border-[#E6D7B8] text-[#2C1810] placeholder-[#2C1810]/30 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A] transition-all"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[#4A2A1A] text-xs font-semibold uppercase tracking-wider mb-2">
-                  Password
-                </label>
-                <div className="relative">
+                <div>
+                  <label className="block text-[#4A2A1A] text-xs font-semibold uppercase tracking-wider mb-2">
+                    Enter 6-Digit OTP
+                  </label>
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type="text"
                     required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="w-full px-4 py-3 pr-11 bg-[#F5EDD8]/40 border border-[#E6D7B8] text-[#2C1810] placeholder-[#2C1810]/30 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A] transition-all"
+                    maxLength={6}
+                    value={otpCode}
+                    onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ""))}
+                    placeholder="e.g. 123456"
+                    className="w-full px-4 py-3 bg-[#F5EDD8]/40 border border-[#E6D7B8] text-[#2C1810] placeholder-[#2C1810]/30 rounded-xl text-center text-lg font-mono tracking-[0.4em] focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A] transition-all"
                   />
+                </div>
+
+                <div className="flex justify-between items-center text-xs pt-1">
                   <button
                     type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B4513]/40 hover:text-[#8B4513] transition-colors"
+                    onClick={() => {
+                      setOtpStep("form");
+                      setOtpCode("");
+                      setError("");
+                    }}
+                    className="text-[#8B4513] hover:text-[#8B1A1A] underline font-semibold transition-colors"
                   >
-                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    ← Edit Details
                   </button>
-                </div>
-              </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full py-3 bg-[#2C1810] hover:bg-[#8B1A1A] text-[#F5EDD8] font-semibold rounded-xl shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-6"
-              >
-                {loading ? (
+                  {resendCooldown > 0 ? (
+                    <span className="text-[#8B4513]/50">
+                      Resend OTP in {resendCooldown}s
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleResendOtp}
+                      className="text-[#8B1A1A] hover:underline font-semibold transition-all"
+                    >
+                      Resend OTP
+                    </button>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading || otpCode.length !== 6}
+                  className="w-full py-3 bg-[#2C1810] hover:bg-[#8B1A1A] text-[#F5EDD8] font-semibold rounded-xl shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-6"
+                >
+                  {loading ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Verifying...
+                    </>
+                  ) : (
+                    "Verify & Register"
+                  )}
+                </button>
+              </form>
+            ) : (
+              <form onSubmit={activeTab === "login" ? handleLogin : handleRegister} className="space-y-4">
+                {activeTab === "register" && (
                   <>
-                    <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                    </svg>
-                    Processing...
+                    <div>
+                      <label className="block text-[#4A2A1A] text-xs font-semibold uppercase tracking-wider mb-2">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="e.g. Radhika Sharma"
+                        className="w-full px-4 py-3 bg-[#F5EDD8]/40 border border-[#E6D7B8] text-[#2C1810] placeholder-[#2C1810]/30 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A] transition-all"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-[#4A2A1A] text-xs font-semibold uppercase tracking-wider mb-2">
+                        WhatsApp Number
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        value={whatsapp}
+                        onChange={(e) => setWhatsapp(e.target.value)}
+                        placeholder="e.g. +91 9121552086"
+                        className="w-full px-4 py-3 bg-[#F5EDD8]/40 border border-[#E6D7B8] text-[#2C1810] placeholder-[#2C1810]/30 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A] transition-all"
+                      />
+                    </div>
                   </>
-                ) : activeTab === "login" ? (
-                  "Sign In"
-                ) : (
-                  "Create Account"
                 )}
-              </button>
-            </form>
+
+                <div>
+                  <label className="block text-[#4A2A1A] text-xs font-semibold uppercase tracking-wider mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="name@email.com"
+                    className="w-full px-4 py-3 bg-[#F5EDD8]/40 border border-[#E6D7B8] text-[#2C1810] placeholder-[#2C1810]/30 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A] transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-[#4A2A1A] text-xs font-semibold uppercase tracking-wider mb-2">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      className="w-full px-4 py-3 pr-11 bg-[#F5EDD8]/40 border border-[#E6D7B8] text-[#2C1810] placeholder-[#2C1810]/30 rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8B1A1A] focus:border-[#8B1A1A] transition-all"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8B4513]/40 hover:text-[#8B4513] transition-colors"
+                    >
+                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-3 bg-[#2C1810] hover:bg-[#8B1A1A] text-[#F5EDD8] font-semibold rounded-xl shadow-md transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-6"
+                >
+                  {loading ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Processing...
+                    </>
+                  ) : activeTab === "login" ? (
+                    "Sign In"
+                  ) : (
+                    "Create Account"
+                  )}
+                </button>
+              </form>
+            )}
           </>
         )}
       </div>
