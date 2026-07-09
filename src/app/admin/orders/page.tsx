@@ -176,7 +176,11 @@ export default function OrdersPage() {
       })
       const result = await res.json()
       if (res.ok && result.success) {
-        alert(`Shipment booked successfully! AWB: ${result.awb}`)
+        if (!result.awb) {
+          alert(`Shipment booked, but Direct API is deactivated in iCarry settings. Please enter the AWB manually.`)
+        } else {
+          alert(`Shipment booked successfully! AWB: ${result.awb}`)
+        }
         fetchOrders()
       } else {
         alert(`Error booking shipment: ${result.error}`)
@@ -185,6 +189,28 @@ export default function OrdersPage() {
       alert(`Booking failed: ${err.message}`)
     } finally {
       setShippingLoadingId(null)
+    }
+  }
+
+  // ── Save AWB Manually Action ──────────────────────────────────────────────
+  const handleSaveAwb = async (orderId: string, awb: string) => {
+    if (!awb.trim()) return
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .update({
+          awb_number: awb.trim(),
+          icarry_shipment_id: awb.trim(), // fallback shipment id to AWB itself for tracking lookup
+          order_status: 'shipped',
+          tracking_status: 'in_transit'
+        })
+        .eq('id', orderId)
+
+      if (error) throw error
+      alert('AWB saved successfully!')
+      fetchOrders()
+    } catch (err: any) {
+      alert(`Failed to save AWB: ${err.message}`)
     }
   }
 
@@ -314,13 +340,26 @@ export default function OrdersPage() {
                         onChange={(s) => updateStatus(order.id, s)}
                       />
                       {(!order.awbNumber || order.awbNumber === 'null' || order.awbNumber.trim() === '') && currentStatus !== 'Cancelled' && currentStatus !== 'Delivered' && (
-                        <button
-                          onClick={() => handleShipOrder(order.id)}
-                          disabled={shippingLoadingId === order.id}
-                          className="bg-[#22C55E] hover:bg-[#16a34a] text-white text-[10px] font-bold px-2 py-1.5 rounded-lg disabled:opacity-50 transition-colors whitespace-nowrap"
-                        >
-                          {shippingLoadingId === order.id ? 'Booking...' : '🚢 Ship'}
-                        </button>
+                        <div className="flex items-center gap-1.5">
+                          <button
+                            onClick={() => handleShipOrder(order.id)}
+                            disabled={shippingLoadingId === order.id}
+                            className="bg-[#22C55E] hover:bg-[#16a34a] text-white text-[10px] font-bold px-2 py-1.5 rounded-lg disabled:opacity-50 transition-colors whitespace-nowrap"
+                          >
+                            {shippingLoadingId === order.id ? 'Booking...' : '🚢 Ship'}
+                          </button>
+                          <button
+                            onClick={() => {
+                              const val = prompt('Enter iCarry AWB tracking number manually:')
+                              if (val && val.trim()) {
+                                handleSaveAwb(order.id, val)
+                              }
+                            }}
+                            className="bg-[#8B4513] hover:bg-[#6B330E] text-[#F5EDD8] text-[10px] font-bold px-2 py-1.5 rounded-lg transition-colors whitespace-nowrap"
+                          >
+                            ✏️ AWB
+                          </button>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -352,13 +391,26 @@ export default function OrdersPage() {
                         <span className="text-[#F5EDD8]/30 text-xs">{order.date}</span>
                       </div>
                       {(!order.awbNumber || order.awbNumber === 'null' || order.awbNumber.trim() === '') && currentStatus !== 'Cancelled' && currentStatus !== 'Delivered' && (
-                        <button
-                          onClick={() => handleShipOrder(order.id)}
-                          disabled={shippingLoadingId === order.id}
-                          className="bg-[#22C55E] hover:bg-[#16a34a] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg disabled:opacity-50 transition-colors"
-                        >
-                          {shippingLoadingId === order.id ? 'Booking...' : '🚢 Book iCarry'}
-                        </button>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleShipOrder(order.id)}
+                            disabled={shippingLoadingId === order.id}
+                            className="bg-[#22C55E] hover:bg-[#16a34a] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg disabled:opacity-50 transition-colors"
+                          >
+                            {shippingLoadingId === order.id ? 'Booking...' : '🚢 Book iCarry'}
+                          </button>
+                          <button
+                            onClick={() => {
+                              const val = prompt('Enter iCarry AWB tracking number manually:')
+                              if (val && val.trim()) {
+                                handleSaveAwb(order.id, val)
+                              }
+                            }}
+                            className="bg-[#8B4513] hover:bg-[#6B330E] text-[#F5EDD8] text-[10px] font-bold px-3 py-1.5 rounded-lg transition-colors"
+                          >
+                            ✏️ Manual
+                          </button>
+                        </div>
                       )}
                     </div>
                     <div className="mt-3">
