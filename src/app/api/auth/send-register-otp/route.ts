@@ -27,20 +27,20 @@ export async function POST(request: Request) {
 
     const formattedMobile = formatPhoneNumber(whatsappNumber);
 
-    // Call Authyo Send OTP Endpoint
-    const response = await fetch("https://app.authyo.io/api/v1/auth/sendotp", {
-      method: "POST",
+    // Call Authyo Send OTP Endpoint (GET request with query parameters)
+    const url = new URL("https://app.authyo.io/api/v1/auth/sendotp");
+    url.searchParams.append("to", formattedMobile);
+    url.searchParams.append("authWay", "SMS");
+    url.searchParams.append("otpLength", "6");
+    url.searchParams.append("expiry", "600");
+
+    const response = await fetch(url.toString(), {
+      method: "GET",
       headers: {
-        "Content-Type": "application/json",
         "clientId": clientId,
         "clientSecret": clientSecret,
+        "origin": "http://localhost:3000",
       },
-      body: JSON.stringify({
-        to: formattedMobile,
-        authway: "SMS",
-        otplength: 6,
-        expiry: 600,
-      }),
     });
 
     const data = await response.json();

@@ -24,6 +24,7 @@ export async function POST(request: Request) {
       headers: {
         "clientId": clientId,
         "clientSecret": clientSecret,
+        "origin": "http://localhost:3000",
       },
     });
 
