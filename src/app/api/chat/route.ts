@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { products as staticProducts, Product } from "@/lib/products";
 
-// ── Supabase server client (uses env vars directly — safe for server-only route) ──
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
@@ -29,7 +28,6 @@ function mapDbRowToProduct(row: any): Product {
   };
 }
 
-// ── Fetch live products from Supabase, fallback to static list ─────────────
 async function fetchLiveProducts(): Promise<Product[]> {
   try {
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -40,107 +38,91 @@ async function fetchLiveProducts(): Promise<Product[]> {
       .order("id", { ascending: true });
 
     if (error || !data || data.length === 0) {
-      console.warn("[Chat] Supabase fetch failed — falling back to static products:", error?.message);
       return staticProducts.filter((p) => p.isActive !== false);
     }
-
     return data.map(mapDbRowToProduct);
-  } catch (err) {
-    console.warn("[Chat] Supabase error — using static fallback:", err);
+  } catch {
     return staticProducts.filter((p) => p.isActive !== false);
   }
 }
 
-// ── Build LLM-readable product catalog ────────────────────────────────────
 function buildProductCatalog(productList: Product[]): string {
   return productList
     .map((p) => {
-      const lines = [
+      return [
         `Product: ${p.name}`,
-        `  Slug: ${p.slug}`,
+        `  slug: "${p.slug}"`,
         `  Category: ${p.category}`,
         `  Price: ₹${p.sellingPrice} (MRP ₹${p.mrp})`,
         `  Weight: ${p.weight}`,
         `  Description: ${p.shortDescription}`,
         `  Ingredients: ${p.ingredients}`,
-      ];
-      if (p.usageSuggestions?.length) {
-        lines.push(`  Best for: ${p.usageSuggestions.slice(0, 3).join("; ")}`);
-      }
-      if (p.benefits?.length) {
-        lines.push(`  Benefits: ${p.benefits.slice(0, 2).join("; ")}`);
-      }
-      if (p.badge) {
-        lines.push(`  Badge: ${p.badge}`);
-      }
-      return lines.join("\n");
+        p.usageSuggestions?.length
+          ? `  Best for: ${p.usageSuggestions.slice(0, 3).join("; ")}`
+          : "",
+        p.badge ? `  Badge: ${p.badge}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n");
     })
     .join("\n\n");
 }
 
-// ── System prompt builder (called fresh per request with live catalog) ─────
 function buildSystemPrompt(catalog: string): string {
-  return `You are "Vraja", a warm and knowledgeable spice assistant for Vrajaspice — a premium Indian spice brand specialising in No Onion No Garlic (NONG) masala blends crafted for satvik, Jain, ISKCON, and Vaishnav cooking.
+  return `You are "Vraja", a warm spice assistant for Vrajaspice — a premium Indian spice brand. All products are NONG (No Onion No Garlic), made for satvik, Jain, ISKCON, and Vaishnav cooking.
 
-Your role:
-- Help users find the RIGHT Vrajaspice product for their cooking needs
-- Ask friendly follow-up questions when needed (e.g., "What are you cooking?", "Do you prefer mild or bold flavours?")
-- Recommend 1-3 products maximum per response — don't overwhelm users
-- Be concise, friendly, and enthusiastic about spices
-- Always mention the price and a key benefit when recommending
-- If users ask about non-spice topics, gently steer back to cooking and products
-- Use emojis sparingly but warmly (1-2 per message max)
-- When recommending a product, always format it like:
-  **[Product Name]** (₹X) — [1-line reason why it suits their need]
-
-CRITICAL RULES:
-- ONLY recommend products that exist in the catalog below — NEVER make up or invent products
-- Read the catalog CAREFULLY — match products by their name, description, and ingredients
-- If the user asks for "noodles", look for a noodle-related product in the catalog first
-- All products are NONG (No Onion No Garlic) — always highlight this
-- If a user's request doesn't match any product, say so honestly and suggest the closest available option
-- Keep responses under 150 words unless the user explicitly asks for details
-
-VRAJASPICE LIVE PRODUCT CATALOG (${catalog.split("Product:").length - 1} products):
-${catalog}
-
-Always match the user's cooking intent to the MOST RELEVANT product in this catalog first before suggesting alternatives.`;
+CRITICAL OUTPUT RULE:
+You MUST respond with valid JSON only — no markdown, no extra text outside the JSON.
+Format:
+{
+  "message": "your friendly reply text (under 120 words, use \\n for line breaks)",
+  "recommendedSlugs": ["slug1", "slug2"]
 }
 
-// ── POST handler ───────────────────────────────────────────────────────────
+- "message": Your helpful reply. Keep it short and warm.
+- "recommendedSlugs": Array of product slugs from the catalog that best match the user's request. Max 3. Empty array [] if no products are relevant.
+
+RULES:
+- ONLY use slugs from the catalog below — never invent slugs
+- Match the user's EXACT cooking need to the catalog. If they say "noodles", find a noodle product.
+- All products are NONG — highlight this
+- Be friendly and concise
+
+VRAJASPICE PRODUCT CATALOG (${catalog.split('slug:').length - 1} products):
+${catalog}
+
+Always pick the most relevant product slugs before suggesting alternatives.`;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { messages } = await req.json();
-
     if (!messages || !Array.isArray(messages)) {
       return NextResponse.json({ error: "Invalid request" }, { status: 400 });
     }
 
-    // Always fetch fresh products so the AI knows about newly added items
     const liveProducts = await fetchLiveProducts();
     const catalog = buildProductCatalog(liveProducts);
     const systemPrompt = buildSystemPrompt(catalog);
 
-    const response = await fetch(
-      "https://api.groq.com/openai/v1/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          messages: [
-            { role: "system", content: systemPrompt },
-            ...messages,
-          ],
-          max_tokens: 400,
-          temperature: 0.5,
-          stream: false,
-        }),
-      }
-    );
+    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.GROQ_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          { role: "system", content: systemPrompt },
+          ...messages,
+        ],
+        max_tokens: 500,
+        temperature: 0.4,
+        response_format: { type: "json_object" },
+        stream: false,
+      }),
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -152,11 +134,37 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await response.json();
-    const reply =
-      data.choices?.[0]?.message?.content ??
-      "Sorry, I couldn't understand that. Could you rephrase?";
+    const rawContent = data.choices?.[0]?.message?.content ?? "{}";
 
-    return NextResponse.json({ reply });
+    let parsed: { message?: string; recommendedSlugs?: string[] } = {};
+    try {
+      parsed = JSON.parse(rawContent);
+    } catch {
+      // Fallback if LLM didn't return valid JSON
+      parsed = { message: rawContent, recommendedSlugs: [] };
+    }
+
+    const reply = parsed.message ?? "Sorry, I couldn't understand that. Could you rephrase?";
+    const slugs: string[] = Array.isArray(parsed.recommendedSlugs) ? parsed.recommendedSlugs : [];
+
+    // Attach full product details for each recommended slug
+    const recommendedProducts = slugs
+      .map((slug) => liveProducts.find((p) => p.slug === slug))
+      .filter(Boolean) as Product[];
+
+    // Return only the fields the frontend needs (keep payload small)
+    const productsForUI = recommendedProducts.map((p) => ({
+      slug: p.slug,
+      name: p.name,
+      shortDescription: p.shortDescription,
+      imageUrl: p.imageUrl,
+      sellingPrice: p.sellingPrice,
+      mrp: p.mrp,
+      weight: p.weight,
+      badge: p.badge,
+    }));
+
+    return NextResponse.json({ reply, products: productsForUI });
   } catch (err) {
     console.error("Chat API error:", err);
     return NextResponse.json(
