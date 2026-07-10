@@ -54,6 +54,14 @@ export async function POST(req: Request) {
       }, { status: 500 })
     }
 
+    // Trigger push notification to admin on successful payment verification
+    try {
+      const { sendAdminOrderPushNotification } = await import('@/lib/push-notifications')
+      await sendAdminOrderPushNotification(orderId)
+    } catch (pushErr) {
+      console.error('Failed to send admin push notification:', pushErr)
+    }
+
     return NextResponse.json({ success: true, message: 'Payment verified successfully' })
   } catch (err: any) {
     console.error('Error verifying payment:', err)

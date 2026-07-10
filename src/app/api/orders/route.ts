@@ -144,6 +144,16 @@ export async function POST(req: Request) {
       throw itemsError
     }
 
+    // Trigger push notification to admin if COD
+    if (paymentMethod === 'cod') {
+      try {
+        const { sendAdminOrderPushNotification } = await import('@/lib/push-notifications')
+        await sendAdminOrderPushNotification(orderId)
+      } catch (pushErr) {
+        console.error('Failed to send admin push notification:', pushErr)
+      }
+    }
+
     return NextResponse.json({
       success: true,
       orderId,

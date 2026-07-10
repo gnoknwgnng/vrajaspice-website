@@ -207,32 +207,71 @@ export default function OrdersPage() {
     }
   }, [])
 
+  const urlBase64ToUint8Array = (base64String: string) => {
+    const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/')
+    const rawData = window.atob(base64)
+    const outputArray = new Uint8Array(rawData.length)
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i)
+    }
+    return outputArray
+  }
+
   const toggleNotifications = async () => {
-    if (!('Notification' in window)) {
-      alert('This browser does not support desktop notifications.')
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+      alert('Push notifications are not supported in this browser.')
       return
     }
 
-    if (Notification.permission === 'granted') {
-      const newState = !notificationsEnabled
-      localStorage.setItem('admin_notifications_enabled', newState ? 'true' : 'false')
-      setNotificationsEnabled(newState)
-      if (newState) {
-        new Notification('Vrajaspice Admin', { body: 'Desktop notifications are active!' })
-        playChime()
-      }
-    } else if (Notification.permission !== 'denied') {
+    const vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
+    if (!vapidKey) {
+      alert('VAPID public key is missing from configuration.')
+      return
+    }
+
+    try {
       const permission = await Notification.requestPermission()
-      if (permission === 'granted') {
-        localStorage.setItem('admin_notifications_enabled', 'true')
-        setNotificationsEnabled(true)
-        new Notification('Vrajaspice Admin', { body: 'Desktop notifications are active!' })
-        playChime()
-      } else {
-        alert('Notification permission denied.')
+      if (permission !== 'granted') {
+        alert('Notification permission was denied. Please allow notifications in your browser settings.')
+        return
       }
-    } else {
-      alert('Notification permission is blocked. Please allow notifications for this site in Chrome settings.')
+
+      const newState = !notificationsEnabled
+      if (!newState) {
+        localStorage.setItem('admin_notifications_enabled', 'false')
+        setNotificationsEnabled(false)
+        alert('Notifications turned off locally.')
+        return
+      }
+
+      console.log('Registering Service Worker...')
+      const registration = await navigator.serviceWorker.register('/sw.js')
+      await navigator.serviceWorker.ready
+
+      console.log('Subscribing to PushManager...')
+      const subscription = await registration.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(vapidKey),
+      })
+
+      console.log('Saving subscription to database...')
+      const res = await fetch('/api/admin/push/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscription }),
+      })
+
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Failed to save subscription')
+
+      localStorage.setItem('admin_notifications_enabled', 'true')
+      setNotificationsEnabled(true)
+      playChime()
+      alert('🔔 Web Push Notifications successfully activated! You will receive notifications for new orders even when screen is locked or tab is closed.')
+    } catch (err: any) {
+      console.error('Push notification registration failed:', err)
+      alert(`Failed to activate notifications: ${err.message}`)
     }
   }
 
