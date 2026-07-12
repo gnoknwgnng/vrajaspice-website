@@ -4,6 +4,10 @@ import { products as mockProducts, Product } from '@/lib/products'
 
 // Helper to map DB row to frontend Product type
 function mapDbRowToProduct(row: any): Product {
+  let img = row.image_url || '/placeholder.png';
+  if (img.startsWith('/product-images/')) {
+    img = `${img}?v=2`;
+  }
   return {
     id: Number(row.id),
     slug: row.slug,
@@ -17,7 +21,7 @@ function mapDbRowToProduct(row: any): Product {
     stockQuantity: Number(row.stock_quantity),
     featured: !!row.featured,
     badge: row.badge,
-    imageUrl: row.image_url || '/placeholder.png',
+    imageUrl: img,
     category: row.category || 'everyday',
     benefits: row.benefits || [],
     usageSuggestions: row.usage_suggestions || [],

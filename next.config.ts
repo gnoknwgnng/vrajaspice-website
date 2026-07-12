@@ -8,6 +8,15 @@ const nextConfig: NextConfig = {
         hostname: "**",
       },
     ],
+    localPatterns: [
+      {
+        pathname: "/**",
+      },
+      {
+        pathname: "/**",
+        search: "?v=*",
+      },
+    ],
   },
   async headers() {
     return [
