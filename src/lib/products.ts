@@ -34,7 +34,7 @@ export const products: Product[] = [
     "featured": true,
     "badge": "Best Seller",
     "imageUrl": "/product-images/kitchen-king-masala.jpeg?v=2",
-    "category": "everyday",
+    "category": "Everyday Sabji & Curry Masalas",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -69,7 +69,7 @@ export const products: Product[] = [
     "featured": true,
     "badge": "Premium Blend",
     "imageUrl": "/product-images/garam-masala.jpeg?v=2",
-    "category": "everyday",
+    "category": "Classic Indian Masalas",
     "benefits": [
       "Nine premium whole spices, freshly ground",
       "No onion, garlic, or fillers",
@@ -103,7 +103,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": "Satvik Friendly",
     "imageUrl": "/product-images/sambar-masala.jpeg?v=2",
-    "category": "south-indian",
+    "category": "Classic Indian Masalas",
     "benefits": [
       "Authentic South Indian recipe",
       "NONG — No Onion No Garlic",
@@ -137,7 +137,7 @@ export const products: Product[] = [
     "featured": true,
     "badge": "Best Seller",
     "imageUrl": "/product-images/chole-masala.jpeg?v=2",
-    "category": "north-indian",
+    "category": "Classic Indian Masalas",
     "benefits": [
       "Restaurant-quality chole at home",
       "Natural sourness from amchur and anardana",
@@ -171,7 +171,7 @@ export const products: Product[] = [
     "featured": true,
     "badge": "Launch Special",
     "imageUrl": "/product-images/ekadashi-sabzi-masala.jpeg?v=2",
-    "category": "satvik",
+    "category": "Classic Indian Masalas",
     "benefits": [
       "Made exclusively with sendha namak — vrat friendly",
       "No table salt, no onion, no garlic",
@@ -205,7 +205,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": "No Onion No Garlic",
     "imageUrl": "/product-images/pav-bhaji-masala.jpeg?v=2",
-    "category": "street-food",
+    "category": "Classic Indian Masalas",
     "benefits": [
       "Authentic Mumbai street-food flavour",
       "No onion, no garlic — satvik approved",
@@ -239,7 +239,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": "Premium Blend",
     "imageUrl": "/product-images/biryani-masala.jpeg?v=2",
-    "category": "rice",
+    "category": "Rice & Pulao Masalas",
     "benefits": [
       "Thirteen whole spices for royal biryani flavour",
       "No onion or garlic — pure satvik blend",
@@ -273,7 +273,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": "Satvik Friendly",
     "imageUrl": "/product-images/rasam-powder.jpeg?v=2",
-    "category": "south-indian",
+    "category": "Classic Indian Masalas",
     "benefits": [
       "Traditional South Indian recipe",
       "Peppery warmth that aids digestion",
@@ -307,7 +307,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": "Satvik Friendly",
     "imageUrl": "/product-images/khichdi-masala.jpeg?v=2",
-    "category": "satvik",
+    "category": "Rice & Pulao Masalas",
     "benefits": [
       "Gentle and warming — ideal for all ages",
       "ISKCON and satvik kitchen approved",
@@ -341,7 +341,7 @@ export const products: Product[] = [
     "featured": true,
     "badge": "Launch Special",
     "imageUrl": "/product-images/farali-chaat-masala.jpeg?v=2",
-    "category": "satvik",
+    "category": "Snack & Sprinkle Seasonings",
     "benefits": [
       "100% vrat-friendly with sendha namak",
       "Tangy and minty — makes fasting food exciting",
@@ -375,7 +375,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": "Ekadashi Special",
     "imageUrl": "/product-images/ekadashi-hing.png?v=2",
-    "category": "ekadashi",
+    "category": "Temple & Satvik Prasadam Masalas",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -408,7 +408,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/pulihora-mix.jpeg?v=2",
-    "category": "instant-mix",
+    "category": "Classic Indian Masalas",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -441,7 +441,7 @@ export const products: Product[] = [
     "featured": true,
     "badge": "Bestseller",
     "imageUrl": "/product-images/magic-masala.jpeg?v=2",
-    "category": "masala",
+    "category": "Classic Indian Masalas",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -474,7 +474,7 @@ export const products: Product[] = [
     "featured": true,
     "badge": "New",
     "imageUrl": "/product-images/schezwan-sauce.jpeg?v=2",
-    "category": "sauce",
+    "category": "Health, Podi & Instant Mixes",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -507,7 +507,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": "Healthy",
     "imageUrl": "/product-images/moringa-podi.jpeg?v=2",
-    "category": "podi",
+    "category": "Health, Podi & Instant Mixes",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -540,7 +540,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/flaxseed-podi.jpeg?v=2",
-    "category": "podi",
+    "category": "Health, Podi & Instant Mixes",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -573,7 +573,7 @@ export const products: Product[] = [
     "featured": true,
     "badge": "Ekadashi Special",
     "imageUrl": "/product-images/ekadashi-khichdi-mix.jpeg?v=2",
-    "category": "ekadashi",
+    "category": "Health, Podi & Instant Mixes",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -606,7 +606,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": "Ekadashi Special",
     "imageUrl": "/product-images/ekadashi-sabudana-khichdi-mix.jpeg?v=2",
-    "category": "ekadashi",
+    "category": "Health, Podi & Instant Mixes",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -639,7 +639,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": "New",
     "imageUrl": "/product-images/italian-seasoning.png?v=2",
-    "category": "seasoning",
+    "category": "Continental Herb Blends",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -672,7 +672,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/peanut-chutney-powder.jpeg?v=2",
-    "category": "podi",
+    "category": "Health, Podi & Instant Mixes",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -705,7 +705,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/noodles-tastemaker.jpeg?v=2",
-    "category": "seasoning",
+    "category": "Health, Podi & Instant Mixes",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -738,7 +738,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": "Ekadashi Special",
     "imageUrl": "/product-images/ekadashi-rajgira-dosa-mix.jpeg?v=2",
-    "category": "ekadashi",
+    "category": "Health, Podi & Instant Mixes",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -771,7 +771,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": "Ekadashi Special",
     "imageUrl": "/product-images/ekadashi-rajgira-halwa-mix.jpeg?v=2",
-    "category": "ekadashi",
+    "category": "Health, Podi & Instant Mixes",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -804,7 +804,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": "Ekadashi Special",
     "imageUrl": "/product-images/ekadashi-pancake-mix.jpeg?v=2",
-    "category": "ekadashi",
+    "category": "Health, Podi & Instant Mixes",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -837,7 +837,7 @@ export const products: Product[] = [
     "featured": true,
     "badge": "New",
     "imageUrl": "/product-images/choco-millet-pancake-mix.jpeg?v=2",
-    "category": "instant-mix",
+    "category": "Health, Podi & Instant Mixes",
     "benefits": [
       "100% No Onion No Garlic — pure satvik blend",
       "No artificial colours or preservatives",
@@ -870,7 +870,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/everyday-sabji-masala.png?v=2",
-    "category": "masala",
+    "category": "Everyday Sabji & Curry Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -909,7 +909,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/vegetable-masala.png?v=2",
-    "category": "masala",
+    "category": "Everyday Sabji & Curry Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -948,7 +948,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/dal-masala.png?v=2",
-    "category": "masala",
+    "category": "Everyday Sabji & Curry Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -987,7 +987,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/tadka-masala.png?v=2",
-    "category": "masala",
+    "category": "Everyday Sabji & Curry Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1026,7 +1026,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/dry-sabji-masala.png?v=2",
-    "category": "masala",
+    "category": "Everyday Sabji & Curry Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1065,7 +1065,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/curry-masala.png?v=2",
-    "category": "masala",
+    "category": "Everyday Sabji & Curry Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1104,7 +1104,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/stuffed-vegetable-masala.png?v=2",
-    "category": "masala",
+    "category": "Everyday Sabji & Curry Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1143,7 +1143,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/tomato-curry-masala.png?v=2",
-    "category": "masala",
+    "category": "Everyday Sabji & Curry Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1182,7 +1182,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/paneer-masala.png?v=2",
-    "category": "masala",
+    "category": "Everyday Sabji & Curry Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1221,7 +1221,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/govinda-sabji-masala.png?v=2",
-    "category": "masala",
+    "category": "Temple & Satvik Prasadam Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1260,7 +1260,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/temple-khichdi-masala.png?v=2",
-    "category": "rice",
+    "category": "Rice & Pulao Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1299,7 +1299,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/vaishnava-garam-masala.png?v=2",
-    "category": "masala",
+    "category": "Temple & Satvik Prasadam Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1338,7 +1338,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/prasadam-curry-masala.png?v=2",
-    "category": "masala",
+    "category": "Temple & Satvik Prasadam Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1377,7 +1377,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/annakut-masala.png?v=2",
-    "category": "masala",
+    "category": "Temple & Satvik Prasadam Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1416,7 +1416,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/temple-pulao-masala.png?v=2",
-    "category": "rice",
+    "category": "Temple & Satvik Prasadam Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1455,7 +1455,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/bhoga-seasoning-blend.png?v=2",
-    "category": "seasoning",
+    "category": "Temple & Satvik Prasadam Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1494,7 +1494,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/festival-vegetable-masala.png?v=2",
-    "category": "masala",
+    "category": "Temple & Satvik Prasadam Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1533,7 +1533,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/satvik-curry-blend.png?v=2",
-    "category": "masala",
+    "category": "Temple & Satvik Prasadam Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1572,7 +1572,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/mahaprasad-khichdi-blend.png?v=2",
-    "category": "rice",
+    "category": "Temple & Satvik Prasadam Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1611,7 +1611,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/mediterranean-herb-mix.png?v=2",
-    "category": "seasoning",
+    "category": "Continental Herb Blends",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1650,7 +1650,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/pizza-sprinkle.png?v=2",
-    "category": "seasoning",
+    "category": "Continental Herb Blends",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1689,7 +1689,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/pasta-seasoning.png?v=2",
-    "category": "seasoning",
+    "category": "Continental Herb Blends",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1728,7 +1728,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/tuscan-herb-blend.png?v=2",
-    "category": "masala",
+    "category": "Continental Herb Blends",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1767,7 +1767,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/french-herb-blend.png?v=2",
-    "category": "masala",
+    "category": "Continental Herb Blends",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1806,7 +1806,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/lemon-herb-seasoning.png?v=2",
-    "category": "seasoning",
+    "category": "Continental Herb Blends",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1845,7 +1845,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/roasted-vegetable-seasoning.png?v=2",
-    "category": "seasoning",
+    "category": "Continental Herb Blends",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1884,7 +1884,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/herb-paneer-seasoning.png?v=2",
-    "category": "seasoning",
+    "category": "Herb & Spice Sprinkle Mixes",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1923,7 +1923,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/all-purpose-gourmet-herb-mix.png?v=2",
-    "category": "seasoning",
+    "category": "Herb & Spice Sprinkle Mixes",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -1962,7 +1962,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/garlic-free-bread-sprinkle.png?v=2",
-    "category": "seasoning",
+    "category": "Herb & Spice Sprinkle Mixes",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2001,7 +2001,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/tomato-herb-seasoning.png?v=2",
-    "category": "seasoning",
+    "category": "Herb & Spice Sprinkle Mixes",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2040,7 +2040,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/herb-rice-seasoning.png?v=2",
-    "category": "seasoning",
+    "category": "Herb & Spice Sprinkle Mixes",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2079,7 +2079,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/creamy-pasta-herb-mix.png?v=2",
-    "category": "seasoning",
+    "category": "Herb & Spice Sprinkle Mixes",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2118,7 +2118,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/air-fryer-veggie-mix.png?v=2",
-    "category": "everyday",
+    "category": "Herb & Spice Sprinkle Mixes",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2157,7 +2157,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/premium-veg-biryani-masala.png?v=2",
-    "category": "rice",
+    "category": "Rice & Pulao Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2196,7 +2196,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/royal-pulao-masala.png?v=2",
-    "category": "rice",
+    "category": "Rice & Pulao Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2235,7 +2235,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/jeera-rice-seasoning.png?v=2",
-    "category": "seasoning",
+    "category": "Rice & Pulao Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2274,7 +2274,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/lemon-rice-masala.png?v=2",
-    "category": "rice",
+    "category": "Rice & Pulao Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2313,7 +2313,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/tamarind-rice-masala.png?v=2",
-    "category": "rice",
+    "category": "Rice & Pulao Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2352,7 +2352,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/coconut-rice-masala.png?v=2",
-    "category": "rice",
+    "category": "Rice & Pulao Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2391,7 +2391,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/masala-rice-blend.png?v=2",
-    "category": "rice",
+    "category": "Rice & Pulao Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2430,7 +2430,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/curd-rice-tadka-mix.png?v=2",
-    "category": "rice",
+    "category": "Rice & Pulao Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2469,7 +2469,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/indian-fried-rice-seasoning.png?v=2",
-    "category": "seasoning",
+    "category": "Rice & Pulao Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2508,7 +2508,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/premium-upma-masala.png?v=2",
-    "category": "instant-mix",
+    "category": "Breakfast & Tiffin Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2547,7 +2547,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/premium-poha-masala.png?v=2",
-    "category": "instant-mix",
+    "category": "Breakfast & Tiffin Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2586,7 +2586,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/temple-pongal-masala.png?v=2",
-    "category": "rice",
+    "category": "Breakfast & Tiffin Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2625,7 +2625,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/premium-idli-podi.png?v=2",
-    "category": "podi",
+    "category": "Breakfast & Tiffin Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2664,7 +2664,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/premium-dosa-podi.png?v=2",
-    "category": "podi",
+    "category": "Breakfast & Tiffin Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2703,7 +2703,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/millet-khichdi-masala.png?v=2",
-    "category": "rice",
+    "category": "Breakfast & Tiffin Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2742,7 +2742,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/savory-oats-masala.png?v=2",
-    "category": "masala",
+    "category": "Breakfast & Tiffin Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2781,7 +2781,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/vegetable-dalia-masala.png?v=2",
-    "category": "masala",
+    "category": "Breakfast & Tiffin Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2820,7 +2820,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/breakfast-sprinkle.png?v=2",
-    "category": "seasoning",
+    "category": "Breakfast & Tiffin Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2859,7 +2859,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/instant-tadka-mix.png?v=2",
-    "category": "instant-mix",
+    "category": "Breakfast & Tiffin Masalas",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2898,7 +2898,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/premium-chaat-masala.png?v=2",
-    "category": "masala",
+    "category": "Snack & Sprinkle Seasonings",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2937,7 +2937,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/premium-fruit-sprinkle.png?v=2",
-    "category": "seasoning",
+    "category": "Snack & Sprinkle Seasonings",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -2976,7 +2976,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/gourmet-popcorn-masala.png?v=2",
-    "category": "masala",
+    "category": "Snack & Sprinkle Seasonings",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -3015,7 +3015,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/roasted-makhana-masala.png?v=2",
-    "category": "masala",
+    "category": "Snack & Sprinkle Seasonings",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -3054,7 +3054,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/peanut-masala.png?v=2",
-    "category": "masala",
+    "category": "Snack & Sprinkle Seasonings",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -3093,7 +3093,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/sweet-corn-seasoning.png?v=2",
-    "category": "seasoning",
+    "category": "Snack & Sprinkle Seasonings",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -3132,7 +3132,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/sandwich-sprinkle.png?v=2",
-    "category": "seasoning",
+    "category": "Snack & Sprinkle Seasonings",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -3171,7 +3171,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/gourmet-potato-seasoning.png?v=2",
-    "category": "seasoning",
+    "category": "Snack & Sprinkle Seasonings",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -3210,7 +3210,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/sprouts-seasoning.png?v=2",
-    "category": "seasoning",
+    "category": "Snack & Sprinkle Seasonings",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",
@@ -3249,7 +3249,7 @@ export const products: Product[] = [
     "featured": false,
     "badge": null,
     "imageUrl": "/product-images/everything-satvik-sprinkle.png?v=2",
-    "category": "seasoning",
+    "category": "Snack & Sprinkle Seasonings",
     "benefits": [
       "100% No Onion No Garlic (NONG) — pure satvik blend",
       "Made with premium quality, hand-selected spices",

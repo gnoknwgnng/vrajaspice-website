@@ -10,16 +10,20 @@ import { supabase } from "@/lib/supabase";
 /* ─── Types ─────────────────────────────────────────────────────────── */
 type SortKey = "popularity" | "price-asc" | "price-desc";
 
-const BADGE_FILTERS = [
+const CATEGORIES = [
   "All",
-  "Best Seller",
-  "Satvik Friendly",
-  "Premium Blend",
-  "Launch Special",
-  "No Onion No Garlic",
+  "Everyday Sabji & Curry Masalas",
+  "Temple & Satvik Prasadam Masalas",
+  "Continental Herb Blends",
+  "Herb & Spice Sprinkle Mixes",
+  "Rice & Pulao Masalas",
+  "Breakfast & Tiffin Masalas",
+  "Snack & Sprinkle Seasonings",
+  "Classic Indian Masalas",
+  "Health, Podi & Instant Mixes",
 ] as const;
 
-type BadgeFilter = (typeof BADGE_FILTERS)[number];
+type Category = (typeof CATEGORIES)[number];
 
 const SORT_OPTIONS: { label: string; value: SortKey }[] = [
   { label: "Popularity", value: "popularity" },
@@ -74,7 +78,7 @@ function Breadcrumb() {
 export default function ShopClient({ initialProducts }: { initialProducts: Product[] }) {
   const [productsList, setProductsList] = useState<Product[]>(initialProducts);
   const [loading, setLoading] = useState(false);
-  const [activeFilter, setActiveFilter] = useState<BadgeFilter>("All");
+  const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [sortKey, setSortKey] = useState<SortKey>("popularity");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOpen, setSortOpen] = useState(false);
@@ -130,8 +134,8 @@ export default function ShopClient({ initialProducts }: { initialProducts: Produ
     }
 
     // Filter
-    if (activeFilter !== "All") {
-      list = list.filter((p) => p.badge === activeFilter);
+    if (activeCategory !== "All") {
+      list = list.filter((p) => p.category === activeCategory);
     }
 
     // Sort
@@ -141,7 +145,7 @@ export default function ShopClient({ initialProducts }: { initialProducts: Produ
     else list.sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
 
     return list;
-  }, [productsList, activeFilter, sortKey, searchQuery]);
+  }, [productsList, activeCategory, sortKey, searchQuery]);
 
   const activeSortLabel =
     SORT_OPTIONS.find((o) => o.value === sortKey)?.label ?? "Popularity";
@@ -177,21 +181,23 @@ export default function ShopClient({ initialProducts }: { initialProducts: Produ
 
             <div className="hidden sm:block w-px h-6 bg-[#EDE0C4]" />
 
-            {/* Badge filters */}
-            <div className="flex items-center gap-1.5 overflow-x-auto flex-1">
-              {BADGE_FILTERS.map((badge) => (
-                <button
-                  key={badge}
-                  onClick={() => setActiveFilter(badge)}
-                  className={`whitespace-nowrap text-xs font-semibold px-3 py-1.5 rounded-full transition-all duration-200 border ${
-                    activeFilter === badge
-                      ? "bg-[#8B1A1A] text-[#F5EDD8] border-[#8B1A1A] shadow-sm"
-                      : "bg-white/70 text-[#6B4E37] border-[#EDE0C4] hover:border-[#8B1A1A]/40 hover:text-[#8B1A1A]"
-                  }`}
-                >
-                  {badge}
-                </button>
-              ))}
+            {/* Category filters */}
+            <div className="flex-1 w-full overflow-hidden">
+              <div className="flex md:flex-wrap items-center gap-1.5 overflow-x-auto md:overflow-x-visible pb-1 md:pb-0 scrollbar-none [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {CATEGORIES.map((cat) => (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCategory(cat)}
+                    className={`whitespace-nowrap text-xs font-semibold px-3.5 py-2 rounded-full transition-all duration-200 border cursor-pointer ${
+                      activeCategory === cat
+                        ? "bg-[#8B1A1A] text-[#F5EDD8] border-[#8B1A1A] shadow-sm"
+                        : "bg-white/70 text-[#6B4E37] border-[#EDE0C4] hover:border-[#8B1A1A]/40 hover:text-[#8B1A1A]"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="hidden sm:block w-px h-6 bg-[#EDE0C4]" />
@@ -262,8 +268,8 @@ export default function ShopClient({ initialProducts }: { initialProducts: Produ
             Showing{" "}
             <span className="font-bold text-[#2C1810]">{filtered.length}</span>{" "}
             {filtered.length === 1 ? "product" : "products"}
-            {activeFilter !== "All" && (
-              <span className="text-[#8B4513]"> · {activeFilter}</span>
+            {activeCategory !== "All" && (
+              <span className="text-[#8B4513]"> · {activeCategory}</span>
             )}
             {searchQuery && (
               <span className="text-[#8B4513]">
@@ -273,12 +279,12 @@ export default function ShopClient({ initialProducts }: { initialProducts: Produ
             )}
           </p>
 
-          {activeFilter !== "All" && (
+          {activeCategory !== "All" && (
             <button
-              onClick={() => setActiveFilter("All")}
-              className="flex items-center gap-1 text-xs font-medium text-[#8B1A1A] bg-[#8B1A1A]/10 px-2.5 py-1 rounded-full hover:bg-[#8B1A1A]/20 transition-colors"
+              onClick={() => setActiveCategory("All")}
+              className="flex items-center gap-1 text-xs font-medium text-[#8B1A1A] bg-[#8B1A1A]/10 px-2.5 py-1 rounded-full hover:bg-[#8B1A1A]/20 transition-colors cursor-pointer"
             >
-              {activeFilter}
+              {activeCategory}
               <X className="w-3 h-3" />
             </button>
           )}
@@ -305,7 +311,7 @@ export default function ShopClient({ initialProducts }: { initialProducts: Produ
             <button
               onClick={() => {
                 setSearchQuery("");
-                setActiveFilter("All");
+                setActiveCategory("All");
               }}
               className="inline-flex items-center gap-2 bg-[#8B1A1A] text-[#F5EDD8] px-6 py-3 rounded-xl font-semibold text-sm hover:bg-[#6B1212] transition-colors"
             >
