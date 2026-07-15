@@ -132,7 +132,7 @@ const CATEGORY_METADATA: Record<string, { image: string; desc: string }> = {
     desc: "Nutritious podis, instant food, and healthy millet mixes.",
   },
   "Ekadashi": {
-    image: "/product-images/cat-ekadashi.png?v=2",
+    image: "/product-images/cat-ekadashi.png?v=3",
     desc: "Pure grain-free, satvik ingredients specially for holy fasting days like Ekadashi.",
   },
 };
