@@ -37,8 +37,6 @@ const badgeColors: Record<string, string> = {
 
 /* ─── Trust badge data ───────────────────────────────────────────────── */
 const TRUST_BADGES = [
-  { icon: Leaf, label: "100% NONG", sub: "No Onion No Garlic Facility" },
-  { icon: Shield, label: "No Preservatives", sub: "Purely natural" },
   { icon: Sparkles, label: "No Artificial Colours", sub: "Real spice colour" },
   { icon: Package, label: "Small Batch", sub: "Fresh & aromatic" },
   { icon: FlaskConical, label: "Satvik Friendly", sub: "Pure ingredients" },

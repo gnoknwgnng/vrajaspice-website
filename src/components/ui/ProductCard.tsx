@@ -139,15 +139,6 @@ export default function ProductCard({ product, priority = false }: ProductCardPr
           {product.shortDescription}
         </p>
 
-        {/* NONG badge */}
-        <div className="flex flex-wrap items-center gap-1 mb-3">
-          <span className="text-[9px] font-semibold text-[#4A7C59] bg-[#E8F5E9] px-2 py-0.5 rounded-full border border-[#4A7C59]/20 whitespace-nowrap">
-            🌿 NONG
-          </span>
-          <span className="text-[9px] font-semibold text-[#4A7C59] bg-[#E8F5E9] px-2 py-0.5 rounded-full border border-[#4A7C59]/20 whitespace-nowrap">
-            No Preservatives
-          </span>
-        </div>
 
         {/* Price */}
         <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 mb-4">
