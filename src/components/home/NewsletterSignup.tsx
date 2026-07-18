@@ -3,34 +3,37 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 
-export default function NewsletterSignup() {
-  const [form, setForm] = useState({ name: "", email: "", whatsapp: "", whatsappOptIn: false });
+const GOOGLE_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbwGeeTVRZObXkhVUj9KX9-S0ivfCVg1EHxP0FAXhbNK4R8dwJrbapQg9aOjcvPMN_w/exec";
+
+export default function BulkOrderContact() {
+  const [form, setForm] = useState({ name: "", phone: "", enquiry: "" });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.name || !form.email) {
-      toast.error("Please enter your name and email.");
+    if (!form.name || !form.phone || !form.enquiry) {
+      toast.error("Please fill in all required fields.");
       return;
     }
     setLoading(true);
     try {
-      const res = await fetch("/api/newsletter", {
+      // Use no-cors mode since Google Apps Script doesn't return CORS headers for redirect responses
+      await fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
+        mode: "no-cors",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          enquiry: form.enquiry,
+        }),
       });
-      if (res.ok) {
-        setSubmitted(true);
-        toast.success("Welcome to the Vrajaspice family! 🌿");
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
-    } catch {
-      // If API not set up, still show success for demo
       setSubmitted(true);
-      toast.success("Welcome to the Vrajaspice family! 🌿");
+      toast.success("Thank you! We'll get back to you shortly.");
+    } catch {
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -38,7 +41,7 @@ export default function NewsletterSignup() {
 
   return (
     <section className="py-16 md:py-24 bg-gradient-to-br from-[#8B1A1A] to-[#6B1212] relative overflow-hidden">
-      {/* Brush stroke decorations */}
+      {/* Decorative brush strokes */}
       <svg
         className="absolute top-0 right-0 w-72 h-72 opacity-10"
         viewBox="0 0 300 300"
@@ -68,78 +71,108 @@ export default function NewsletterSignup() {
 
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
         <p className="text-[#D4A017] text-sm font-semibold tracking-[0.2em] uppercase mb-4">
-          Stay Connected
+          Bulk Orders
         </p>
         <h2 className="font-serif font-bold text-[#F5EDD8] text-3xl md:text-4xl mb-4">
-          Join the Vrajaspice Family
+          Contact Us for Bulk Orders
         </h2>
         <p className="text-[#F5EDD8]/80 text-base mb-10 leading-relaxed">
-          Get exclusive launch offers, new product alerts, satvik recipes, and
-          early access to special blends. No spam — only soul.
+          Looking to order in bulk for your family, temple, restaurant, or
+          gifting? Get in touch and we'll craft a special deal just for you.
         </p>
+
+        {/* Trust chips */}
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
+          {["🏺 Wholesale Pricing", "📦 Custom Packaging", "🚚 Pan-India Delivery", "🌿 100% NONG"].map((t) => (
+            <span
+              key={t}
+              className="text-xs font-semibold text-[#D4A017] bg-[#D4A017]/10 border border-[#D4A017]/30 px-3 py-1.5 rounded-full"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
 
         {submitted ? (
           <div className="bg-[#F5EDD8]/10 border border-[#F5EDD8]/20 rounded-2xl p-8">
-            <div className="text-4xl mb-4">🌿</div>
+            <div className="text-4xl mb-4">🎉</div>
             <h3 className="font-serif font-bold text-[#F5EDD8] text-2xl mb-2">
-              Welcome to the Family!
+              Enquiry Received!
             </h3>
             <p className="text-[#F5EDD8]/80">
-              Thank you for joining us. Watch your inbox for exclusive offers and
-              satvik inspiration!
+              Thank you for reaching out. Our team will contact you within 24 hours
+              to discuss your bulk order requirements.
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="space-y-4 text-left">
+            {/* Name */}
+            <div>
+              <label className="block text-[#F5EDD8]/70 text-xs font-semibold mb-1.5 tracking-wide uppercase">
+                Name <span className="text-[#D4A017]">*</span>
+              </label>
               <input
                 type="text"
-                placeholder="Your Name *"
+                id="bulk-name"
+                placeholder="Your full name"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
                 required
-                className="w-full bg-[#F5EDD8]/10 border border-[#F5EDD8]/20 rounded-xl px-5 py-4 text-[#F5EDD8] placeholder-[#F5EDD8]/50 focus:outline-none focus:border-[#D4A017] transition-colors text-sm"
-              />
-              <input
-                type="email"
-                placeholder="Email Address *"
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                required
-                className="w-full bg-[#F5EDD8]/10 border border-[#F5EDD8]/20 rounded-xl px-5 py-4 text-[#F5EDD8] placeholder-[#F5EDD8]/50 focus:outline-none focus:border-[#D4A017] transition-colors text-sm"
+                className="w-full bg-[#F5EDD8]/10 border border-[#F5EDD8]/20 rounded-xl px-5 py-4 text-[#F5EDD8] placeholder-[#F5EDD8]/40 focus:outline-none focus:border-[#D4A017] focus:ring-1 focus:ring-[#D4A017]/30 transition-all text-sm"
               />
             </div>
-            <input
-              type="tel"
-              placeholder="WhatsApp Number (optional)"
-              value={form.whatsapp}
-              onChange={(e) => setForm({ ...form, whatsapp: e.target.value })}
-              className="w-full bg-[#F5EDD8]/10 border border-[#F5EDD8]/20 rounded-xl px-5 py-4 text-[#F5EDD8] placeholder-[#F5EDD8]/50 focus:outline-none focus:border-[#D4A017] transition-colors text-sm"
-            />
 
-            <label className="flex items-start gap-3 text-left cursor-pointer">
+            {/* Phone */}
+            <div>
+              <label className="block text-[#F5EDD8]/70 text-xs font-semibold mb-1.5 tracking-wide uppercase">
+                Phone Number <span className="text-[#D4A017]">*</span>
+              </label>
               <input
-                type="checkbox"
-                checked={form.whatsappOptIn}
-                onChange={(e) => setForm({ ...form, whatsappOptIn: e.target.checked })}
-                className="mt-1 w-4 h-4 rounded accent-[#D4A017]"
+                type="tel"
+                id="bulk-phone"
+                placeholder="Your WhatsApp / mobile number"
+                value={form.phone}
+                onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                required
+                className="w-full bg-[#F5EDD8]/10 border border-[#F5EDD8]/20 rounded-xl px-5 py-4 text-[#F5EDD8] placeholder-[#F5EDD8]/40 focus:outline-none focus:border-[#D4A017] focus:ring-1 focus:ring-[#D4A017]/30 transition-all text-sm"
               />
-              <span className="text-[#F5EDD8]/70 text-sm">
-                Yes, I&apos;d like to receive WhatsApp updates from Vrajaspice about
-                new products, offers, and satvik recipes.
-              </span>
-            </label>
+            </div>
+
+            {/* Enquiry */}
+            <div>
+              <label className="block text-[#F5EDD8]/70 text-xs font-semibold mb-1.5 tracking-wide uppercase">
+                Enquiry <span className="text-[#D4A017]">*</span>
+              </label>
+              <textarea
+                id="bulk-enquiry"
+                rows={4}
+                placeholder="Tell us about your bulk order — quantity, products, occasion, etc."
+                value={form.enquiry}
+                onChange={(e) => setForm({ ...form, enquiry: e.target.value })}
+                required
+                className="w-full bg-[#F5EDD8]/10 border border-[#F5EDD8]/20 rounded-xl px-5 py-4 text-[#F5EDD8] placeholder-[#F5EDD8]/40 focus:outline-none focus:border-[#D4A017] focus:ring-1 focus:ring-[#D4A017]/30 transition-all text-sm resize-none"
+              />
+            </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#D4A017] text-[#2C1810] py-4 rounded-xl font-bold text-base hover:bg-[#E4B027] transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+              className="w-full bg-[#D4A017] text-[#2C1810] py-4 rounded-xl font-bold text-base hover:bg-[#E4B027] active:scale-[0.98] transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-[0_6px_20px_rgba(212,160,23,0.35)]"
             >
-              {loading ? "Joining..." : "Join the Vrajaspice Family 🌿"}
+              {loading ? "Sending Enquiry..." : "Send Bulk Order Enquiry →"}
             </button>
 
-            <p className="text-[#F5EDD8]/50 text-xs">
-              We respect your privacy. Unsubscribe anytime. No spam.
+            <p className="text-[#F5EDD8]/40 text-xs text-center">
+              We typically respond within 24 hours. You can also reach us on{" "}
+              <a
+                href="https://wa.me/919121552086"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#D4A017] hover:underline"
+              >
+                WhatsApp
+              </a>
+              .
             </p>
           </form>
         )}
