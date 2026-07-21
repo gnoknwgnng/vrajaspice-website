@@ -49,23 +49,13 @@ async function fetchLiveProducts(): Promise<Product[]> {
 function buildProductCatalog(productList: Product[]): string {
   return productList
     .map((p) => {
-      return [
-        `Product: ${p.name}`,
-        `  slug: "${p.slug}"`,
-        `  Category: ${p.category}`,
-        `  Price: ₹${p.sellingPrice} (MRP ₹${p.mrp})`,
-        `  Weight: ${p.weight}`,
-        `  Description: ${p.shortDescription}`,
-        `  Ingredients: ${p.ingredients}`,
-        p.usageSuggestions?.length
-          ? `  Best for: ${p.usageSuggestions.slice(0, 3).join("; ")}`
-          : "",
-        p.badge ? `  Badge: ${p.badge}` : "",
-      ]
-        .filter(Boolean)
-        .join("\n");
+      // Keep descriptions extremely short to stay within Groq free tier token limits (TPL/TPM)
+      const desc = p.shortDescription
+        ? p.shortDescription.slice(0, 60) + (p.shortDescription.length > 60 ? "..." : "")
+        : "";
+      return `Product: "${p.name}" | slug: "${p.slug}" | Category: ${p.category} | Info: ${desc}`;
     })
-    .join("\n\n");
+    .join("\n");
 }
 
 function buildSystemPrompt(catalog: string): string {
