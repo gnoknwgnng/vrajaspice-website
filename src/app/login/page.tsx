@@ -53,8 +53,7 @@ function LoginForm() {
     setError("");
     setLoading(true);
     try {
-      const siteUrl =
-        process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+      const siteUrl = window.location.origin;
       const { error: oauthErr } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
